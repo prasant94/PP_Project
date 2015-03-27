@@ -61,4 +61,8 @@ public class Database {
 		// TODO
 		return false;
 	}
+
+	public String searchMedia(String query) {
+		return null;
+	}
 }
