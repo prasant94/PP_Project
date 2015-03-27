@@ -62,7 +62,44 @@ public class Database {
 		return false;
 	}
 
+	/**
+	 *
+	 * @param query
+	 * @return
+	 */
 	public String searchMedia(String query) {
 		return null;
+	}
+
+	/**
+	 *
+	 * @param sqlQuery
+	 */
+	public void executeQuery(String sqlQuery) {
+		// TODO
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public ResultSet getResultSet() {
+		return resultSet;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Statement getStatement() {
+		return statement;
+	}
+
+	/**
+	 *
+	 * @param statement
+	 */
+	public void setStatement(Statement statement) {
+		this.statement = statement;
 	}
 }

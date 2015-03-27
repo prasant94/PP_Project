@@ -20,4 +20,15 @@ public class Server {
 		// TODO
 		return 0;
 	}
+
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	private boolean validateCredentials(String username, String password) {
+		// TODO
+		return false;
+	}
 }

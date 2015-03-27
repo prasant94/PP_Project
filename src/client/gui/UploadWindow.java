@@ -1,9 +1,6 @@
 package client.gui;
 
-import javax.swing.JFrame;
 
-public class UploadWindow extends JFrame {
-	public UploadWindow() {
-		// TODO
-	}
+public class UploadWindow extends PopUpWindow {
+
 }
