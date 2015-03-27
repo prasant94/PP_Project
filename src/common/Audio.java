@@ -1,6 +1,6 @@
 package common;
 
 
-public class Audio extends Upload implements Streamable {
+public class Audio extends Media {
 
 }
