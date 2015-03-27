@@ -3,6 +3,8 @@ package server;
 import java.util.ArrayList;
 
 public class Server {
+	private int listeningPort;
+	private String ipAddress;
 	ArrayList<ClientConnection> connections;
 
 	public void listenForRequests(int port) {
