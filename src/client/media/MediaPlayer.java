@@ -1,5 +1,9 @@
 package client.media;
 
-public class MediaPlayer {
-
+public abstract class MediaPlayer {
+	
+	boolean Accept(MediaVisitor mediaVisitor){
+		return false;
+		
+	}
 }
