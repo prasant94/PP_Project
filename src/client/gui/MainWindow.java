@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import client.Client;
+import javax.swing.JPasswordField;
 
 public class MainWindow extends JFrame {
 
@@ -32,8 +33,6 @@ public class MainWindow extends JFrame {
 	final static String DASHBOARD_PANEL = "Dashboard Panel";
 
 	static final String BROWSE_FILE_PANEL = "Browse File Panel";
-
-	private JTextField passwordSignInTextField;
 	private JTextField usernameSignInTextField;
 	private JTextField usernameSignUpTextField;
 	private JTextField emailSignUpTextField;
@@ -43,6 +42,7 @@ public class MainWindow extends JFrame {
 	public Client client;
 	JPanel browseFilePanel;
 	JPanel fileList;
+	private JPasswordField passwordSignInTextField;
 	public MainWindow() {
 //		client = new Client();
 		getContentPane().setLayout(new CardLayout(0, 0));
@@ -324,9 +324,6 @@ public class MainWindow extends JFrame {
 		JLabel usernameSignInLabel = new JLabel("Username - ");
 		JLabel passwordSignInLabel = new JLabel("Password -");
 
-		passwordSignInTextField = new JTextField();
-		passwordSignInTextField.setColumns(20);
-
 		usernameSignInTextField = new JTextField();
 		usernameSignInTextField.setColumns(20);
 
@@ -348,9 +345,11 @@ public class MainWindow extends JFrame {
 					displayErrorMessage("Username or Password Incorrect");
 				}
 			}});
+		
+		passwordSignInTextField = new JPasswordField();
+		passwordSignInTextField.setColumns(20);
 
 		GroupLayout gl_signInWindowPanel = new GroupLayout(signInWindowPanel);
-
 		gl_signInWindowPanel.setHorizontalGroup(
 			gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_signInWindowPanel.createSequentialGroup()
@@ -368,11 +367,12 @@ public class MainWindow extends JFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
 										.addComponent(signInButton)
-										.addComponent(passwordSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+										.addComponent(passwordSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+							.addGap(6))
 						.addGroup(gl_signInWindowPanel.createSequentialGroup()
 							.addGap(162)
 							.addComponent(signInWindowLabel)))
-					.addContainerGap(59, Short.MAX_VALUE))
+					.addContainerGap(53, Short.MAX_VALUE))
 		);
 		gl_signInWindowPanel.setVerticalGroup(
 			gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
@@ -383,13 +383,13 @@ public class MainWindow extends JFrame {
 					.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(usernameSignInLabel)
 						.addComponent(usernameSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+					.addGap(35)
 					.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(passwordSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(passwordSignInLabel))
-					.addGap(31)
+						.addComponent(passwordSignInLabel)
+						.addComponent(passwordSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(43)
 					.addComponent(signInButton)
-					.addContainerGap(67, Short.MAX_VALUE))
+					.addContainerGap(42, Short.MAX_VALUE))
 		);
 
 		signInWindowPanel.setLayout(gl_signInWindowPanel);
