@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 import common.User;
 
@@ -37,7 +38,6 @@ public class ServerConnection extends Thread {
 	private void listenToClient() throws IOException {
 		byte[] buf = new byte[500];
 		System.out.println("Entering listenToClient" );
-		while(true) {
 			if (socket.isClosed()) {
 				System.out.println("socket closed at CC40");
 				return;
@@ -51,24 +51,21 @@ public class ServerConnection extends Thread {
 			String line = new String(buf);
 			//String line = Arrays.toString(buf);
 			System.out.println("line: " + line);
-			socket.close();
-			return;
-//			if (line != null && line.length() > 0) {
-//				StringTokenizer tok = new StringTokenizer(line, ":");
-//				String command = tok.nextToken();
-//
-////				if (command.equals("DownloadRequest")) {
-//					String fileName = tok.nextToken().trim();
-//					System.out.println("Initiating request to send file : " + fileName);
-//					sendFile(fileName);
-//					System.out.println("returned from send file");
-////				} else {
-////					System.err.println("Unknown command : " + command);
-////				}
-//			is.close();
-//			//socket.close();
-//			}
-		}
+			if (line != null && line.length() > 0) {
+				StringTokenizer tok = new StringTokenizer(line, ":");
+				String command = tok.nextToken();
+
+//				if (command.equals("DownloadRequest")) {
+					String fileName = tok.nextToken().trim();
+					System.out.println("Initiating request to send file : " + fileName);
+					sendFile(fileName);
+					System.out.println("returned from send file");
+//				} else {
+//					System.err.println("Unknown command : " + command);
+//				}
+			is.close();
+			//socket.close();
+			}
 
 	}
 

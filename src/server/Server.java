@@ -31,11 +31,12 @@ public class Server {
 
 	public void listenForRequests() throws IOException {
 		while (true) {
+			System.gc();
+//			System.out.println("waiting to accept");
 			socket = serverSocket.accept();
 			System.out.println("New Connection established with : " + socket.getInetAddress());
 			ServerConnection newConnection = new ServerConnection(socket);
 			if (socket.isClosed()) System.out.println("socket closed at S37");
-			connections.add(newConnection);
 			newConnection.start();
 		}
 	}
