@@ -2,11 +2,13 @@ package server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -16,6 +18,7 @@ import common.User;
 
 public class ServerConnection extends Thread {
 	private static final String ROOT_DIR = "/Users/prasant/Desktop/server/";
+//	private static final String ROOT_DIR = "/home/juhi/workspace/server/";
 	private static final int COMMAND_HEADER_SIZE = 5;
 	private static final String ENCODING_FORMAT = "ASCII";
 	private static final int INSTRUCTION_BUFFER_SIZE = 500;
@@ -78,13 +81,31 @@ public class ServerConnection extends Thread {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating download for file : '" + fileName+"'");
 				receiveFile(ROOT_DIR + fileName);
-			} else {
+			}
+			else if(command.equals("NewUser")){
+				String details = tok.nextToken().trim();
+				System.out.println("Adding new user to database");
+				addUser(details);
+				
+			}
+			else {
 				System.err.println("Unknown command : " + command);
 			}
 			is.close();
 		}
 
 	}
+	
+	private void addUser(String details) throws IOException 
+	{
+	    File file = new File(ROOT_DIR+"database.txt");
+		BufferedWriter output = new BufferedWriter(new FileWriter(file,true));
+		output.write(details+"\n");
+		output.close();
+		System.out.println("User added");
+	}
+		
+
 
 	/**
 	 *
@@ -224,11 +245,11 @@ public class ServerConnection extends Thread {
 	public User getUser() {
 		return user;
 	}
-
-	/**
-	 *
-	 * @param user
-	 */
+//
+//	/**
+//	 *
+//	 * @param user
+//	 */
 	public void setUser(User user) {
 		this.user = user;
 	}

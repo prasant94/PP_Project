@@ -43,7 +43,7 @@ public class MainWindow extends JFrame {
 	JPanel browseFilePanel;
 
 	public MainWindow() {
-		client = new Client();
+//		client = new Client();
 		getContentPane().setLayout(new CardLayout(0, 0));
 
 		JPanel welcomeWindowPanel = new JPanel();
@@ -139,6 +139,13 @@ public class MainWindow extends JFrame {
 		confirmPasswordSignUpTextField.setColumns(10);
 
 		JButton signUpButton = new JButton("Sign Up");
+		signUpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				client = new Client();
+				client.addUser(usernameSignUpTextField.getText(), emailSignUpTextField.getText(), passwordSignUpTextField.getText());
+				goToPanel(DASHBOARD_PANEL);
+			}
+		});
 
 		GroupLayout gl_signUpWindowPanel = new GroupLayout(signUpWindowPanel);
 		gl_signUpWindowPanel.setHorizontalGroup(
@@ -299,6 +306,7 @@ public class MainWindow extends JFrame {
 		signInButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				client = new Client();
 				StringBuilder userInformation = new StringBuilder();
 				userInformation.append(usernameSignInTextField.getText()+","+ passwordSignInTextField.getText());
 				if(client.isValidUser(userInformation.toString())){

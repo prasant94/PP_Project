@@ -3,22 +3,26 @@ package client;
 import java.util.ArrayList;
 
 public class Client {
+	private String userName;
+	private String password;
+	
 
 	public static void main(String[] args) {
 		System.out.println("running client");
 		Client c = new Client();
-		c.uploadMedia(args[0], args[1]);
+		//c.uploadMedia(args[0], args[1]);
+		c.addUser("abc", "email", "password");
 	}
 
 	private String ip;
 	private int port;
-	private ClientConnection serverConnection;
+	private ClientConnection clientConnection;
 
 	/**
 	 *
 	 */
 	public Client(){
-		this.serverConnection = new ClientConnection();
+		this.clientConnection = new ClientConnection();
 	}
 
 	/**
@@ -48,7 +52,7 @@ public class Client {
 	 * @return
 	 */
 	protected void downloadMedia(String fileName, String saveAs){
-		serverConnection.downloadFile(fileName, saveAs);
+		clientConnection.downloadFile(fileName, saveAs);
 	}
 
 	/**
@@ -57,7 +61,7 @@ public class Client {
 	 * @return
 	 */
 	public void uploadMedia(String filePath, String fileName){
-		serverConnection.uploadFile(filePath, fileName);
+		clientConnection.uploadFile(filePath, fileName);
 	}
 
 	/**
@@ -107,7 +111,7 @@ public class Client {
 	 * @return
 	 */
 	public ClientConnection getServerConenction() {
-		return serverConnection;
+		return clientConnection;
 	}
 
 	/**
@@ -115,15 +119,19 @@ public class Client {
 	 * @param serverConenction
 	 */
 	public void setServerConenction(ClientConnection serverConenction) {
-		this.serverConnection = serverConenction;
+		this.clientConnection = serverConenction;
 	}
 
 
 	public boolean isValidUser(String userInformation) {
-		// TODO Auto-generated method stub
 		String messageToServer = "validate user,";
 		messageToServer = messageToServer.concat(userInformation);
-		return true;
+		return false;
+	}
+	
+	public void addUser(String name, String email, String password){
+		System.out.println("add client");
+		clientConnection.addUser(name, email, password);
 	}
 
 }
