@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.awt.CardLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -96,14 +97,16 @@ public class MainWindow extends JFrame {
 		// TODO Auto-generated method stub
 	}
 	
-	private void browseFiles(JPanel panel) {
-		System.out.println("Entered browseFiles");
+	private void browseFiles() {
 		ArrayList<String> filesOnServer = client.browseMedia();
-		System.out.println(filesOnServer.size());
+		JPanel fileList = new JPanel();
+		
+		fileList.setLayout(new GridLayout(filesOnServer.size(), 1));
 //		ButtonGroup radioButtonGroup = new ButtonGroup(); 
 		for(String s : filesOnServer){
-			browseFilePanel.add(new JRadioButton(s));
+			fileList.add(new JRadioButton(s));
 		}
+		browseFilePanel.add(fileList);
 		
 		
 	}
@@ -276,7 +279,7 @@ public class MainWindow extends JFrame {
 		dashboardWindowPanel.setLayout(gl_dashboardWIndowPanel);
 		browseFilesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				browseFiles(panel);
+				browseFiles();
 				goToPanel(BROWSE_FILE_PANEL);
 			}
 		});
