@@ -2,11 +2,13 @@ package server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -79,13 +81,30 @@ public class ServerConnection extends Thread {
 			} else if (request.equals("BrowseFiles")) {
 				String option = tok.nextToken().trim();
 				sendListOfFiles(option);
-			} else {
+			}
+			else if(request.equals("NewUser")){
+				String details = tok.nextToken().trim();
+				System.out.println("Adding new user to database");
+				addUser(details);
+			}
+			else {
 				System.err.println("Unknown command : " + request);
 			}
 			is.close();
 		}
 
 	}
+
+	private void addUser(String details) throws IOException
+	{
+	    File file = new File(ROOT_DIR+"database.txt");
+		BufferedWriter output = new BufferedWriter(new FileWriter(file,true));
+		output.write(details+"\n");
+		output.close();
+		System.out.println("User added");
+	}
+
+
 
 	private void sendListOfFiles(String option) {
 		// open a file for the root directory
@@ -248,11 +267,11 @@ public class ServerConnection extends Thread {
 	public User getUser() {
 		return user;
 	}
-
-	/**
-	 *
-	 * @param user
-	 */
+//
+//	/**
+//	 *
+//	 * @param user
+//	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
