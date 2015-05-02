@@ -12,8 +12,8 @@ public class Client {
 		System.out.println("running client");
 		Client c = new Client();
 //		c.uploadMedia(args[0], args[1]);
-//		c.addUser("abc", "email", "password");
-		c.browseMedia();
+		c.addUser("abcde", "email", "password");
+//		c.browseMedia();
 	}
 
 	private String ip;

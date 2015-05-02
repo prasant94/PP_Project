@@ -206,7 +206,7 @@ public class ClientConnection {
 	}
 
 
-	public void addUser(String name, String email, String password) {
+	public boolean addUser(String name, String email, String password) {
 		/// ----------- send user details to server ------------
 		String userDetails = name.concat(";").concat(email).concat(";").concat(password);
 		try {
@@ -221,5 +221,37 @@ public class ClientConnection {
 			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
 			e1.printStackTrace();
 		}
+		// receive response
+		byte[] buf = new byte[RESPONSE_BODY_BUFFER_SIZE];
+		if (socket.isClosed()) {
+			System.err.println("Socket closed");
+			return false;
+		}
+		try {
+			InputStream is = socket.getInputStream();
+
+			is.read(buf, 0, RESPONSE_HEADER_SIZE);
+			String responseLengthString = new String(buf, ENCODING_FORMAT);
+			System.out.println("responseLengthString : " + responseLengthString);
+			responseLengthString = responseLengthString.trim();
+			int responseLength = Integer.parseInt(responseLengthString);
+
+			int readBytes = is.read(buf, 0, responseLength);
+			if (readBytes == -1) {
+				System.out.println("No bytes read");
+			}
+
+			String line = new String(buf, ENCODING_FORMAT);
+			System.out.println("adding user : resopnse from server : " + line);
+			if (line.equals("SignUp Successful")) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (NumberFormatException | IOException e) {
+			System.err.println("reception failed");
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

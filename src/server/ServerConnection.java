@@ -104,6 +104,20 @@ public class ServerConnection extends Thread {
 		output.write(details+"\n");
 		output.close();
 		System.out.println("User added");
+		String response = "SignUp Successful";
+		/// ----------- send response string -----------
+		try {
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+			// and append the request to it
+			System.out.println("sending response : " + response);
+			byte[] bytes = (String.format(RESPONSE_HEADER_SIZE_FORMAT, response.length()) + response).getBytes(ENCODING_FORMAT );
+			outToServer.write(bytes);
+			outToServer.flush();
+		} catch (IOException e1) {
+			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+			e1.printStackTrace();
+		}
 	}
 
 
