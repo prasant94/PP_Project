@@ -47,8 +47,15 @@ public class ServerConnection extends Thread {
 			InputStream is = socket.getInputStream();
 			//String s = new String()
 //			String line = br.readLine();
-			int readBytes = is.read(buf, 0,500);
-			String line = new String(buf);
+
+			int readBytes = is.read(buf, 0, 500);
+			for(int i=0; i<readBytes ; i++){
+				System.out.print(buf[i]);
+			}
+			System.out.println();
+			String line = new String(buf, "UTF8");
+			line = line.toString();
+			//String line = Arrays.toString(buf);
 			//String line = Arrays.toString(buf);
 			System.out.println("line: " + line);
 			if (line != null && line.length() > 0) {
@@ -57,7 +64,7 @@ public class ServerConnection extends Thread {
 
 //				if (command.equals("DownloadRequest")) {
 					String fileName = tok.nextToken().trim();
-					System.out.println("Initiating request to send file : " + fileName);
+					System.out.println("Initiating request to send file : '" + fileName+"'");
 					sendFile(fileName);
 					System.out.println("returned from send file");
 //				} else {
@@ -86,24 +93,46 @@ public class ServerConnection extends Thread {
         }
         System.out.println("outToClient null : " + (outToClient != null));
         if (outToClient != null) {
-            File myFile = new File(fileName);
+//            File myFile = new File(fileName);
             System.out.println("FileName Received over network is : "+fileName);
-            //fileName = new StringBuilder(fileName).toString();
-            fileName = "/Users/prasant/Desktop/empty.txt";
-            if(fileName.equalsIgnoreCase("/Users/prasant/Desktop/empty.txt")){
-            	System.out.println("filename equal");
-            }
-            else{
-            	System.out.println("filename not equal");
+            //System.out.println("File is");
+            //for(char c: fileName.toCharArray()){
+            //	System.out.print(c);
+            //}
+            System.out.println();
+//            fileName = new StringBuilder(fileName).toString();
 
-            }
+            String FileName = "/Users/prasant/Desktop/LG_good_morning_alarm.mp3";
+//
+            if(FileName.equals(fileName)) System.out.println("MAKES SENSE.");
+            else System.out.println("Doesnt make sense");
+
+            System.out.println("V:" + FileName);
+            System.out.println("V:" + fileName);
+            //System.out.println("MAKES SENSE.");
+
+
+            String hardCodedFileName = "/Users/prasant/Desktop/LG_good_morning_alarm.mp3";
+//            byte[] buf = hardCodedFileName.getBytes();
+//			for(int i=0; i< buf.length; i++){
+//				System.out.print(buf[i]);
+//			}
+//            if(fileName.equalsIgnoreCase("/Users/prasant/Desktop/empty.txt")){
+//            	System.out.println("filename equal");
+//            }
+//            else{
+//            	System.out.println("filename not equal");
+//
+//            }
             //byte[] mybytearray = new byte[(int) myFile.length()];
-            byte[] mybytearray = new byte[1024];
-
+            byte[] mybytearray = new byte[4096];
+            fileName = new String(fileName.toCharArray());
+            File file = new File(fileName);
+            System.out.println("file exists : " + file.exists());
             FileInputStream fis = null;
 
             try {
-                fis = new FileInputStream(fileName);
+                fis = new FileInputStream(fileName.trim());
             } catch (FileNotFoundException ex) {
                 // Do exception handlingsss
             	ex.printStackTrace();
@@ -112,11 +141,18 @@ public class ServerConnection extends Thread {
 
             try {
             	System.out.println("bytearray length " + mybytearray.length);
-                bis.read(mybytearray, 0, mybytearray.length);
-                System.out.println("file" + new String(mybytearray));
-                outToClient.write(mybytearray, 0, mybytearray.length);
-                outToClient.flush();
+            	System.out.print("reading.");
+            	int sizeLeft = (int) file.length();
+            	while (bis.read(mybytearray) != -1) {
+            		//System.out.print(".");
+            		int sendSize = Math.min(4096, sizeLeft);
+            		outToClient.write(mybytearray, 0, sendSize);
+            		sizeLeft -= sendSize;
+            	}
+        		outToClient.flush();
+                System.out.println("\nfile" + new String(mybytearray));
                 outToClient.close();
+                fis.close();
 //                connectionSocket.close();
                 socket.close();
 

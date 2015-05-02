@@ -36,7 +36,8 @@ public class ClientConnection {
 		/// ----------- send file name to server ------------
 		try {
 			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
-			outToServer.writeChars("DownloadRequest:" + fileName);
+			byte[] bytes = (new String("DownloadRequest:"+fileName)).getBytes("UTF8");
+			outToServer.write(bytes);
 			outToServer.flush();
 		} catch (IOException e1) {
 			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
