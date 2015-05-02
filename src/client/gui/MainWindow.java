@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -41,7 +42,7 @@ public class MainWindow extends JFrame {
 
 	public Client client;
 	JPanel browseFilePanel;
-
+	JPanel fileList;
 	public MainWindow() {
 //		client = new Client();
 		getContentPane().setLayout(new CardLayout(0, 0));
@@ -64,14 +65,46 @@ public class MainWindow extends JFrame {
 
 		browseFilePanel = new JPanel();
 		getContentPane().add(browseFilePanel, BROWSE_FILE_PANEL);
-		createBrowseFilePanel(browseFilePanel);
+		fileList = createBrowseFilePanel(browseFilePanel);
 
 
 	}
 
-	private void createBrowseFilePanel(JPanel browseFilePanel) {
-		JLabel browseFileMessage = new JLabel("Select the file you want to Download...");
-		browseFilePanel.add(browseFileMessage);
+	private JPanel createBrowseFilePanel(JPanel browseFilePanel) {
+		browseFilePanel.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JPanel informationInBrowsePanel = new JPanel();
+		browseFilePanel.add(informationInBrowsePanel);
+		
+		JLabel fileChooseLabel = new JLabel("Choose the file you want to download...");
+		
+		JButton fileToDownloadChosenButton = new JButton("Done");
+		GroupLayout gl_informationInBrowsePanel = new GroupLayout(informationInBrowsePanel);
+		gl_informationInBrowsePanel.setHorizontalGroup(
+			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_informationInBrowsePanel.createSequentialGroup()
+					.addContainerGap(97, Short.MAX_VALUE)
+					.addComponent(fileChooseLabel)
+					.addGap(68))
+				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
+					.addGap(152)
+					.addComponent(fileToDownloadChosenButton)
+					.addContainerGap(181, Short.MAX_VALUE))
+		);
+		gl_informationInBrowsePanel.setVerticalGroup(
+			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
+					.addGap(21)
+					.addComponent(fileChooseLabel)
+					.addGap(27)
+					.addComponent(fileToDownloadChosenButton)
+					.addContainerGap(48, Short.MAX_VALUE))
+		);
+		informationInBrowsePanel.setLayout(gl_informationInBrowsePanel);
+		
+		JPanel fileList = new JPanel();
+		browseFilePanel.add(fileList);
+		return fileList;
 
 	}
 
@@ -94,14 +127,13 @@ public class MainWindow extends JFrame {
 
 	private void browseFiles() {
 		ArrayList<String> filesOnServer = client.browseMedia();
-		JPanel fileList = new JPanel();
-
 		fileList.setLayout(new GridLayout(filesOnServer.size(), 1));
-//		ButtonGroup radioButtonGroup = new ButtonGroup();
+		ButtonGroup radioButtonGroup = new ButtonGroup();
 		for(String s : filesOnServer){
-			fileList.add(new JRadioButton(s));
+			JRadioButton file = new JRadioButton(s);
+			fileList.add(file);
+			radioButtonGroup.add(file);
 		}
-		browseFilePanel.add(fileList);
 	}
 	private void uploadFile() throws IOException {
 
