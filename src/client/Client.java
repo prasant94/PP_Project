@@ -17,16 +17,18 @@ public class Client {
 	/**
 	 *
 	 */
-	protected Client(){
-		this.serverConenction = new ClientConnection();
+	public Client(){
+//		this.serverConenction = new ClientConnection();
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	protected ArrayList<String> browseMedia(){
+	public ArrayList<String> browseMedia(){
 		ArrayList<String> fileNames = new ArrayList<String>();
+		fileNames.add("file1");
+		fileNames.add("file2");
 		return fileNames;
 	}
 
@@ -54,7 +56,7 @@ public class Client {
 	 * @param filename
 	 * @return
 	 */
-	protected boolean uploadMedia(String filename){
+	public boolean uploadMedia(String filename){
 		// TODO
 		return false;
 	}
@@ -116,4 +118,13 @@ public class Client {
 	public void setServerConenction(ClientConnection serverConenction) {
 		this.serverConenction = serverConenction;
 	}
+
+
+	public boolean isValidUser(String userInformation) {
+		// TODO Auto-generated method stub
+		String messageToServer = "validate user,";
+		messageToServer = messageToServer.concat(userInformation);
+		return true;
+	}
+
 }
