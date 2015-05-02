@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,10 +19,11 @@ import common.User;
 
 public class ServerConnection extends Thread {
 	private static final String ROOT_DIR = "/Users/prasant/Desktop/server/";
-//	private static final String ROOT_DIR = "/home/juhi/workspace/server/";
-	private static final int COMMAND_HEADER_SIZE = 5;
+	private static final int REQUEST_HEADER_SIZE = 5;
 	private static final String ENCODING_FORMAT = "ASCII";
-	private static final int INSTRUCTION_BUFFER_SIZE = 500;
+	private static final int REQUEST_BODY_BUFFER_SIZE = 500;
+	private static final String RESPONSE_HEADER_SIZE_FORMAT = "%05d";
+	private static final int RESPONSE_HEADER_SIZE = 10;
 	private int serverPort;
 	private int clientPort;
 	private String clientIp;
@@ -44,25 +46,22 @@ public class ServerConnection extends Thread {
 	}
 
 	private void listenToClient() throws IOException {
-		byte[] buf = new byte[INSTRUCTION_BUFFER_SIZE];
+		byte[] buf = new byte[REQUEST_BODY_BUFFER_SIZE];
 		if (socket.isClosed()) {
 			System.err.println("Socket closed");
 			return;
 		}
 		InputStream is = socket.getInputStream();
 
-		is.read(buf, 0, COMMAND_HEADER_SIZE);
-	//	String commandLengthString = "00025";
-		String commandLengthString = new String(buf, ENCODING_FORMAT);
-		commandLengthString = commandLengthString.trim();
-		System.out.println("commandLengthString : " + "'" + commandLengthString + "'");
-		//commandLengthString.replace("\uFEFF", "");
-		int commandLength = Integer.parseInt(commandLengthString);
-		System.out.println("command length string parsed : " + commandLength);
+		is.read(buf, 0, REQUEST_HEADER_SIZE);
+		String requestLengthString = new String(buf, ENCODING_FORMAT);
+		System.out.println("requestLengthString : " + requestLengthString);
+		requestLengthString = requestLengthString.trim();
+		int requestLength = Integer.parseInt(requestLengthString);
 
-		assert commandLength <= INSTRUCTION_BUFFER_SIZE;
+		assert requestLength <= REQUEST_BODY_BUFFER_SIZE;
 
-		int readBytes = is.read(buf, 0, commandLength);
+		int readBytes = is.read(buf, 0, requestLength);
 		if (readBytes == -1) {
 			System.out.println("No bytes read");
 		}
@@ -71,41 +70,93 @@ public class ServerConnection extends Thread {
 
 		if (line != null && line.length() > 0) {
 			StringTokenizer tok = new StringTokenizer(line, ":");
-			String command = tok.nextToken();
+			String request = tok.nextToken();
 
-			if (command.equals("DownloadRequest")) {
+			if (request.equals("DownloadRequest")) {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating request to send file : '" + fileName+"'");
 				sendFile(ROOT_DIR + fileName);
-			} else if (command.equals("UploadRequest")) {
+			} else if (request.equals("UploadRequest")) {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating download for file : '" + fileName+"'");
 				receiveFile(ROOT_DIR + fileName);
+			} else if (request.equals("BrowseRequest")) {
+				String option = tok.nextToken().trim();
+				sendListOfFiles(option);
 			}
-			else if(command.equals("NewUser")){
+			else if(request.equals("NewUser")){
 				String details = tok.nextToken().trim();
 				System.out.println("Adding new user to database");
 				addUser(details);
-				
 			}
 			else {
-				System.err.println("Unknown command : " + command);
+				System.err.println("Unknown command : " + request);
 			}
 			is.close();
 		}
 
 	}
-	
-	private void addUser(String details) throws IOException 
+
+	private void addUser(String details) throws IOException
 	{
-	    File file = new File(ROOT_DIR+"database.txt");
+	    File file = new File(ROOT_DIR + "database.txt");
 		BufferedWriter output = new BufferedWriter(new FileWriter(file,true));
 		output.write(details+"\n");
 		output.close();
 		System.out.println("User added");
+		String response = "SignUp Successful";
+		/// ----------- send response string -----------
+		try {
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+			// and append the request to it
+			System.out.println("sending response : " + response);
+			byte[] bytes = (String.format(RESPONSE_HEADER_SIZE_FORMAT, response.length()) + response).getBytes(ENCODING_FORMAT );
+			outToServer.write(bytes);
+			outToServer.flush();
+		} catch (IOException e1) {
+			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+			e1.printStackTrace();
+		}
 	}
-		
 
+
+
+	private void sendListOfFiles(String option) {
+		if (option.equals("AllFiles")) {
+			// open a file for the root directory
+			File root = new File(ROOT_DIR);
+
+			// Root file should obviously be an assertion
+			assert root.isDirectory();
+
+			// Initialize StringBuilder
+			StringBuilder sb = new StringBuilder();
+			// Append all file names to String Builder
+			for (File file : root.listFiles()) {
+				sb.append(file.getName()).append(',');
+			}
+			// remove the last comma
+			sb.replace(sb.length()-1, sb.length(), "");
+
+			String response = sb.toString();
+
+			/// ----------- send response string -----------
+			try {
+				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+				// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+				// and append the request to it
+				System.out.println("------------------------");
+				System.out.println("sending response : " + response);
+				byte[] bytes = (String.format(RESPONSE_HEADER_SIZE_FORMAT, response.length()) + response).getBytes(ENCODING_FORMAT );
+				outToServer.write(bytes);
+				outToServer.flush();
+			} catch (IOException e1) {
+				System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+				e1.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 *

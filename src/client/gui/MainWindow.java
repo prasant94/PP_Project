@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -72,12 +72,12 @@ public class MainWindow extends JFrame {
 
 	private JPanel createBrowseFilePanel(JPanel browseFilePanel) {
 		browseFilePanel.setLayout(new GridLayout(2, 1, 0, 0));
-		
+
 		JPanel informationInBrowsePanel = new JPanel();
 		browseFilePanel.add(informationInBrowsePanel);
-		
+
 		JLabel fileChooseLabel = new JLabel("Choose the file you want to download...");
-		
+
 		JButton fileToDownloadChosenButton = new JButton("Done");
 		GroupLayout gl_informationInBrowsePanel = new GroupLayout(informationInBrowsePanel);
 		gl_informationInBrowsePanel.setHorizontalGroup(
@@ -101,7 +101,7 @@ public class MainWindow extends JFrame {
 					.addContainerGap(48, Short.MAX_VALUE))
 		);
 		informationInBrowsePanel.setLayout(gl_informationInBrowsePanel);
-		
+
 		JPanel fileList = new JPanel();
 		browseFilePanel.add(fileList);
 		return fileList;
@@ -126,7 +126,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void browseFiles() {
-		ArrayList<String> filesOnServer = client.browseMedia();
+		List<String> filesOnServer = client.browseMedia();
 		fileList.setLayout(new GridLayout(filesOnServer.size(), 1));
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		for(String s : filesOnServer){
@@ -172,6 +172,7 @@ public class MainWindow extends JFrame {
 
 		JButton signUpButton = new JButton("Sign Up");
 		signUpButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				client = new Client();
 				client.addUser(usernameSignUpTextField.getText(), emailSignUpTextField.getText(), passwordSignUpTextField.getText());

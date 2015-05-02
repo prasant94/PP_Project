@@ -10,14 +10,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
 public class ClientConnection {
 	private static final String SERVER_IP = "127.0.0.1";
-	private static final String COMMAND_HEADER_SIZE_FORMAT = "%05d";
+	private static final String REQUEST_HEADER_SIZE_FORMAT = "%05d";
 	private int SERVER_PORT = 4501;
 	private static final String ENCODING_FORMAT = "ASCII";
+	private static final int RESPONSE_HEADER_SIZE = 5;
+	private static final int RESPONSE_BODY_BUFFER_SIZE = 10240;
 
 
 	private Socket socket;
@@ -46,7 +51,7 @@ public class ClientConnection {
 		try {
 			outToServer = new DataOutputStream(socket.getOutputStream());
 			String request = "UploadRequest:" + fileName;
-			byte[] bytes = (String.format(COMMAND_HEADER_SIZE_FORMAT, request.length()) + request).getBytes(ENCODING_FORMAT );
+			byte[] bytes = (String.format(REQUEST_HEADER_SIZE_FORMAT, request.length()) + request).getBytes(ENCODING_FORMAT );
 			outToServer.write(bytes);
 			outToServer.flush();
 		} catch (IOException e1) {
@@ -89,6 +94,64 @@ public class ClientConnection {
 		}
 	}
 
+	public List<String> getAvailableFileList() {
+		/// ----------- send file name to server ------------
+		try {
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			String request = "BrowseRequest:AllFiles";
+			// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+			// and append the request to it
+			byte[] bytes = (String.format(REQUEST_HEADER_SIZE_FORMAT, request.length()) + request).getBytes(ENCODING_FORMAT );
+			outToServer.write(bytes);
+			outToServer.flush();
+		} catch (IOException e1) {
+			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+			e1.printStackTrace();
+		}
+
+		/// ----------- Read list of files -------------
+		byte[] buf = new byte[RESPONSE_BODY_BUFFER_SIZE];
+
+		InputStream is = null;
+		try {
+			is = socket.getInputStream();
+		} catch (IOException e) {
+			System.err.println("Input Stream Creation Failed");
+			e.printStackTrace();
+		}
+
+		try {
+			is.read(buf, 0, RESPONSE_HEADER_SIZE);
+			String responseLengthString = null;
+			responseLengthString = new String(buf, ENCODING_FORMAT);
+			responseLengthString = responseLengthString.trim();
+			System.out.println("response Length string " + responseLengthString);
+			int responseLength = Integer.parseInt(responseLengthString);
+			System.out.println("response length "  + responseLength);
+
+			StringBuilder sb = new StringBuilder();
+			int bytesLeft = responseLength;
+			do {
+				int bytesToRead = Math.min(RESPONSE_BODY_BUFFER_SIZE, bytesLeft);
+				int readBytes = is.read(buf, 0, bytesToRead);
+				sb.append(new String(buf, ENCODING_FORMAT));
+				System.out.println(sb);
+				bytesLeft -= readBytes;
+			} while (bytesLeft > 0);
+
+			System.out.println("list of files : " + sb.toString());
+			return Arrays.asList(sb.toString().split(","));
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (IOException e) {
+			System.err.println("read failed");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public void downloadFile(String fileName, String saveAs) {
 		/// ----------- send file name to server ------------
 		try {
@@ -96,7 +159,7 @@ public class ClientConnection {
 			String request = "DownloadRequest:" + fileName;
 			// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
 			// and append the request to it
-			byte[] bytes = (String.format(COMMAND_HEADER_SIZE_FORMAT, request.length() + request)).getBytes(ENCODING_FORMAT );
+			byte[] bytes = (String.format(REQUEST_HEADER_SIZE_FORMAT, request.length() + request)).getBytes(ENCODING_FORMAT );
 			outToServer.write(bytes);
 			outToServer.flush();
 		} catch (IOException e1) {
@@ -143,24 +206,52 @@ public class ClientConnection {
 	}
 
 
-	public void addUser(String name, String email, String password) {
-		
+	public boolean addUser(String name, String email, String password) {
 		/// ----------- send user details to server ------------
-		String userDetails = name.concat(":").concat(email).concat(":").concat(password);
+		String userDetails = name.concat(";").concat(email).concat(";").concat(password);
 		try {
-				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
-				String request = "NewUser:" + userDetails;
-				// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
-				// and append the request to it
-				byte[] bytes = (String.format(COMMAND_HEADER_SIZE_FORMAT, request.length() + request)).getBytes(ENCODING_FORMAT );
-				outToServer.write(bytes);
-				outToServer.flush();
-			} catch (IOException e1) {
-				System.err.println("error occurs when creating the output stream or if the socket is not connected.");
-				e1.printStackTrace();
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			String request = "NewUser:" + userDetails;
+			// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+			// and append the request to it
+			byte[] bytes = (String.format(REQUEST_HEADER_SIZE_FORMAT, request.length()) + request).getBytes(ENCODING_FORMAT );
+			outToServer.write(bytes);
+			outToServer.flush();
+		} catch (IOException e1) {
+			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+			e1.printStackTrace();
+		}
+		// receive response
+		byte[] buf = new byte[RESPONSE_BODY_BUFFER_SIZE];
+		if (socket.isClosed()) {
+			System.err.println("Socket closed");
+			return false;
+		}
+		try {
+			InputStream is = socket.getInputStream();
+
+			is.read(buf, 0, RESPONSE_HEADER_SIZE);
+			String responseLengthString = new String(buf, ENCODING_FORMAT);
+			System.out.println("responseLengthString : " + responseLengthString);
+			responseLengthString = responseLengthString.trim();
+			int responseLength = Integer.parseInt(responseLengthString);
+
+			int readBytes = is.read(buf, 0, responseLength);
+			if (readBytes == -1) {
+				System.out.println("No bytes read");
 			}
 
-
-		
+			String line = new String(buf, ENCODING_FORMAT);
+			System.out.println("adding user : resopnse from server : " + line);
+			if (line.equals("SignUp Successful")) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (NumberFormatException | IOException e) {
+			System.err.println("reception failed");
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
