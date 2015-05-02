@@ -25,9 +25,9 @@ public class Client {
 	 *
 	 * @return
 	 */
-	protected String browseMedia(){
-		// TODO
-		return null;
+	protected ArrayList<String> browseMedia(){
+		ArrayList<String> fileNames = new ArrayList<String>();
+		return fileNames;
 	}
 
 	/**
