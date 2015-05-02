@@ -1,10 +1,11 @@
 package client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Client {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		System.out.println("running client");
 		Client c = new Client();
 		c.downloadMedia(args[0], args[1]);
@@ -12,13 +13,13 @@ public class Client {
 
 	private String ip;
 	private int port;
-	private ClientConnection serverConenction;
+	private ClientConnection serverConnection;
 
 	/**
 	 *
 	 */
 	protected Client(){
-		this.serverConenction = new ClientConnection();
+		this.serverConnection = new ClientConnection();
 	}
 
 	/**
@@ -44,9 +45,10 @@ public class Client {
 	 *
 	 * @param filename
 	 * @return
+	 * @throws IOException
 	 */
-	protected void downloadMedia(String fileName, String saveAs){
-		serverConenction.downloadFile(fileName, saveAs);
+	protected void downloadMedia(String fileName, String saveAs) throws IOException{
+		serverConnection.downloadFile(fileName, saveAs);
 	}
 
 	/**
@@ -106,7 +108,7 @@ public class Client {
 	 * @return
 	 */
 	public ClientConnection getServerConenction() {
-		return serverConenction;
+		return serverConnection;
 	}
 
 	/**
@@ -114,6 +116,6 @@ public class Client {
 	 * @param serverConenction
 	 */
 	public void setServerConenction(ClientConnection serverConenction) {
-		this.serverConenction = serverConenction;
+		this.serverConnection = serverConenction;
 	}
 }
