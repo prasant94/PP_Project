@@ -2,9 +2,11 @@ package server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -13,6 +15,10 @@ import java.util.StringTokenizer;
 import common.User;
 
 public class ServerConnection extends Thread {
+	private static final String ROOT_DIR = "/Users/prasant/Desktop/server/";
+	private static final int COMMAND_HEADER_SIZE = 5;
+	private static final String ENCODING_FORMAT = "ASCII";
+	private static final int INSTRUCTION_BUFFER_SIZE = 500;
 	private int serverPort;
 	private int clientPort;
 	private String clientIp;
@@ -20,7 +26,7 @@ public class ServerConnection extends Thread {
 	private Socket socket;
 
 	public ServerConnection(Socket socket) {
-			if (socket.isClosed()) System.out.println("socket closed at CC25");
+		if (socket.isClosed()) System.out.println("socket closed at CC25");
 		this.socket = socket;
 	}
 
@@ -30,102 +36,137 @@ public class ServerConnection extends Thread {
 			if (socket.isClosed()) System.out.println("socket closed at CC32");
 			listenToClient();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private void listenToClient() throws IOException {
-		byte[] buf = new byte[500];
-		System.out.println("Entering listenToClient" );
-			if (socket.isClosed()) {
-				System.out.println("socket closed at CC40");
-				return;
-			}
-			System.out.println("socket open at CC40");
-			//BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			InputStream is = socket.getInputStream();
-			//String s = new String()
-//			String line = br.readLine();
-			int readBytes = is.read(buf, 0,500);
-			String line = new String(buf);
-			//String line = Arrays.toString(buf);
-			System.out.println("line: " + line);
-			if (line != null && line.length() > 0) {
-				StringTokenizer tok = new StringTokenizer(line, ":");
-				String command = tok.nextToken();
+		byte[] buf = new byte[INSTRUCTION_BUFFER_SIZE];
+		if (socket.isClosed()) {
+			System.err.println("Socket closed");
+			return;
+		}
+		InputStream is = socket.getInputStream();
 
-//				if (command.equals("DownloadRequest")) {
-					String fileName = tok.nextToken().trim();
-					System.out.println("Initiating request to send file : " + fileName);
-					sendFile(fileName);
-					System.out.println("returned from send file");
-//				} else {
-//					System.err.println("Unknown command : " + command);
-//				}
-			is.close();
-			//socket.close();
+		is.read(buf, 0, COMMAND_HEADER_SIZE);
+	//	String commandLengthString = "00025";
+		String commandLengthString = new String(buf, ENCODING_FORMAT);
+		commandLengthString = commandLengthString.trim();
+		System.out.println("commandLengthString : " + "'" + commandLengthString + "'");
+		//commandLengthString.replace("\uFEFF", "");
+		int commandLength = Integer.parseInt(commandLengthString);
+		System.out.println("command length string parsed : " + commandLength);
+
+		assert commandLength <= INSTRUCTION_BUFFER_SIZE;
+
+		int readBytes = is.read(buf, 0, commandLength);
+		if (readBytes == -1) {
+			System.out.println("No bytes read");
+		}
+
+		String line = new String(buf, ENCODING_FORMAT);
+
+		if (line != null && line.length() > 0) {
+			StringTokenizer tok = new StringTokenizer(line, ":");
+			String command = tok.nextToken();
+
+			if (command.equals("DownloadRequest")) {
+				String fileName = tok.nextToken().trim();
+				System.out.println("Initiating request to send file : '" + fileName+"'");
+				sendFile(fileName);
+			} else if (command.equals("UploadRequest")) {
+				String fileName = tok.nextToken().trim();
+				System.out.println("Initiating download for file : '" + fileName+"'");
+				receiveFile(ROOT_DIR + fileName);
+			} else {
+				System.err.println("Unknown command : " + command);
 			}
+			is.close();
+		}
 
 	}
 
+	/**
+	 *
+	 * @param saveAs Path where file is saved
+	 */
+	private void receiveFile(String saveAs) {
+		byte[] aByte = new byte[1];
+		int bytesRead;
+
+		InputStream is = null;
+		try {
+			is = socket.getInputStream();
+		} catch (IOException e) {
+			System.err.println("the socket is closed, the socket is not connected, "
+					+ "or the socket input has been shutdown using shutdownInput()");
+			e.printStackTrace();
+		}
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		FileOutputStream fos = null;
+		BufferedOutputStream bos = null;
+		try {
+			fos = new FileOutputStream(saveAs);
+			bos = new BufferedOutputStream(fos);
+			bytesRead = is.read(aByte, 0, aByte.length);
+
+			do {
+				baos.write(aByte);
+				bytesRead = is.read(aByte);
+			} while (bytesRead != -1);
+
+			bos.write(baos.toByteArray());
+			bos.flush();
+			bos.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			// Do exception handling
+		}
+	}
+
 	private void sendFile(String fileName) {
-		System.out.println("socket open : " + socket.isConnected());
-		System.out.println("sending file : " + fileName);
-//		ServerSocket welcomeSocket = null;
-//        Socket connectionSocket = null;
-        BufferedOutputStream outToClient = null;
+		BufferedOutputStream outToClient = null;
 
-        try {
-//            welcomeSocket = new ServerSocket(3248);
-//            connectionSocket = welcomeSocket.accept();
-            outToClient = new BufferedOutputStream(socket.getOutputStream());
-        } catch (IOException ex) {
-            // Do exception handling
-            ex.printStackTrace();
-        }
-        System.out.println("outToClient null : " + (outToClient != null));
-        if (outToClient != null) {
-            File myFile = new File(fileName);
-            System.out.println("FileName Received over network is : "+fileName);
-            //fileName = new StringBuilder(fileName).toString();
-            fileName = "/Users/prasant/Desktop/empty.txt";
-            if(fileName.equalsIgnoreCase("/Users/prasant/Desktop/empty.txt")){
-            	System.out.println("filename equal");
-            }
-            else{
-            	System.out.println("filename not equal");
+		try {
+			outToClient = new BufferedOutputStream(socket.getOutputStream());
+		} catch (IOException ex) {
+			// Do exception handling
+			ex.printStackTrace();
+		}
+		if (outToClient != null) {
+			byte[] mybytearray = new byte[4096];
+			fileName = new String(fileName.toCharArray());
+			File file = new File(fileName);
+			FileInputStream fis = null;
 
-            }
-            //byte[] mybytearray = new byte[(int) myFile.length()];
-            byte[] mybytearray = new byte[1024];
+			try {
+				fis = new FileInputStream(fileName.trim());
+			} catch (FileNotFoundException ex) {
+				// Do exception handling
+				ex.printStackTrace();
+			}
+			BufferedInputStream bis = new BufferedInputStream(fis);
 
-            FileInputStream fis = null;
+			try {
+				int sizeLeft = (int) file.length();
+				while (bis.read(mybytearray) != -1) {
+					int sendSize = Math.min(4096, sizeLeft);
+					outToClient.write(mybytearray, 0, sendSize);
+					sizeLeft -= sendSize;
+				}
+				outToClient.flush();
+				outToClient.close();
+				fis.close();
+				socket.close();
 
-            try {
-                fis = new FileInputStream(fileName);
-            } catch (FileNotFoundException ex) {
-                // Do exception handlingsss
-            	ex.printStackTrace();
-            }
-            BufferedInputStream bis = new BufferedInputStream(fis);
-
-            try {
-            	System.out.println("bytearray length " + mybytearray.length);
-                bis.read(mybytearray, 0, mybytearray.length);
-                System.out.println("file" + new String(mybytearray));
-                outToClient.write(mybytearray, 0, mybytearray.length);
-                outToClient.flush();
-                outToClient.close();
-//                connectionSocket.close();
-                socket.close();
-
-                // File sent, exit the main method
-                return;
-            } catch (IOException ex) {
-                // Do exception handling
-            }
-        }
+				// File sent, exit the main method
+				return;
+			} catch (IOException ex) {
+				// Do exception handling
+			}
+		}
 	}
 
 	/**

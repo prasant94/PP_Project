@@ -7,18 +7,18 @@ public class Client {
 	public static void main(String[] args) {
 		System.out.println("running client");
 		Client c = new Client();
-		c.downloadMedia(args[0], args[1]);
+		c.uploadMedia(args[0], args[1]);
 	}
 
 	private String ip;
 	private int port;
-	private ClientConnection serverConenction;
+	private ClientConnection serverConnection;
 
 	/**
 	 *
 	 */
-	public Client(){
-//		this.serverConenction = new ClientConnection();
+	protected Client(){
+		this.serverConnection = new ClientConnection();
 	}
 
 	/**
@@ -48,17 +48,16 @@ public class Client {
 	 * @return
 	 */
 	protected void downloadMedia(String fileName, String saveAs){
-		serverConenction.downloadFile(fileName, saveAs);
+		serverConnection.downloadFile(fileName, saveAs);
 	}
 
 	/**
 	 *
-	 * @param filename
+	 * @param fileName
 	 * @return
 	 */
-	public boolean uploadMedia(String filename){
-		// TODO
-		return false;
+	protected void uploadMedia(String filePath, String fileName){
+		serverConnection.uploadFile(filePath, fileName);
 	}
 
 	/**
@@ -108,7 +107,7 @@ public class Client {
 	 * @return
 	 */
 	public ClientConnection getServerConenction() {
-		return serverConenction;
+		return serverConnection;
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class Client {
 	 * @param serverConenction
 	 */
 	public void setServerConenction(ClientConnection serverConenction) {
-		this.serverConenction = serverConenction;
+		this.serverConnection = serverConenction;
 	}
 
 
