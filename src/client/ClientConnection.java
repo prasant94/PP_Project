@@ -46,10 +46,10 @@ public class ClientConnection {
 
 		/// ----------- accept file -----------
 		byte[] aByte = new byte[1];
-        int bytesRead;
+		int bytesRead;
 
-//        Socket clientSocket = null;
-        InputStream is = null;
+		//        Socket clientSocket = null;
+		InputStream is = null;
 		try {
 			is = socket.getInputStream();
 			System.out.println("got input stream");
@@ -59,34 +59,26 @@ public class ClientConnection {
 			e.printStackTrace();
 		}
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        if (is != null) {
-        	System.out.println("Inupt stream is not null");
+		FileOutputStream fos = null;
+		BufferedOutputStream bos = null;
+		try {
+			fos = new FileOutputStream(saveAs);
+			bos = new BufferedOutputStream(fos);
+			bytesRead = is.read(aByte, 0, aByte.length);
 
-            FileOutputStream fos = null;
-            BufferedOutputStream bos = null;
-            try {
-            	System.out.println("entered try, saving as : " + saveAs);
-                fos = new FileOutputStream(saveAs);
-            	System.out.println("got for");
-                bos = new BufferedOutputStream(fos);
-            	System.out.println("got bos");
-                bytesRead = is.read(aByte, 0, aByte.length);
+			do {
+				baos.write(aByte);
+				bytesRead = is.read(aByte);
+			} while (bytesRead != -1);
 
-                do {
-                        baos.write(aByte);
-                        bytesRead = is.read(aByte);
-                } while (bytesRead != -1);
-
-                bos.write(baos.toByteArray());
-                bos.flush();
-                bos.close();
-//                clientSocket.close();
-            } catch (IOException ex) {
-            	ex.printStackTrace();
-                // Do exception handling
-            }
-        }
+			bos.write(baos.toByteArray());
+			bos.flush();
+			bos.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			// Do exception handling
+		}
 	}
 }
