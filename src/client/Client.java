@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Client {
 	private String userName;
 	private String password;
-	
+
 
 	public static void main(String[] args) {
 		System.out.println("running client");
 		Client c = new Client();
-		//c.uploadMedia(args[0], args[1]);
+//		c.uploadMedia(args[0], args[1]);
 		c.addUser("abc", "email", "password");
 	}
 
@@ -128,7 +128,7 @@ public class Client {
 		messageToServer = messageToServer.concat(userInformation);
 		return false;
 	}
-	
+
 	public void addUser(String name, String email, String password){
 		System.out.println("add client");
 		clientConnection.addUser(name, email, password);

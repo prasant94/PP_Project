@@ -207,23 +207,19 @@ public class ClientConnection {
 
 
 	public void addUser(String name, String email, String password) {
-
 		/// ----------- send user details to server ------------
-		String userDetails = name.concat(":").concat(email).concat(":").concat(password);
+		String userDetails = name.concat(";").concat(email).concat(";").concat(password);
 		try {
-				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
-				String request = "NewUser:" + userDetails;
-				// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
-				// and append the request to it
-				byte[] bytes = (String.format(REQUEST_HEADER_SIZE_FORMAT, request.length() + request)).getBytes(ENCODING_FORMAT );
-				outToServer.write(bytes);
-				outToServer.flush();
-			} catch (IOException e1) {
-				System.err.println("error occurs when creating the output stream or if the socket is not connected.");
-				e1.printStackTrace();
-			}
-
-
-
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			String request = "NewUser:" + userDetails;
+			// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+			// and append the request to it
+			byte[] bytes = (String.format(REQUEST_HEADER_SIZE_FORMAT, request.length()) + request).getBytes(ENCODING_FORMAT );
+			outToServer.write(bytes);
+			outToServer.flush();
+		} catch (IOException e1) {
+			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+			e1.printStackTrace();
+		}
 	}
 }

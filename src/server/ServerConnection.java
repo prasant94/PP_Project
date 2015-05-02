@@ -54,6 +54,7 @@ public class ServerConnection extends Thread {
 
 		is.read(buf, 0, REQUEST_HEADER_SIZE);
 		String requestLengthString = new String(buf, ENCODING_FORMAT);
+		System.out.println("requestLengthString : " + requestLengthString);
 		requestLengthString = requestLengthString.trim();
 		int requestLength = Integer.parseInt(requestLengthString);
 
@@ -97,7 +98,7 @@ public class ServerConnection extends Thread {
 
 	private void addUser(String details) throws IOException
 	{
-	    File file = new File(ROOT_DIR+"database.txt");
+	    File file = new File(ROOT_DIR + "database.txt");
 		BufferedWriter output = new BufferedWriter(new FileWriter(file,true));
 		output.write(details+"\n");
 		output.close();
