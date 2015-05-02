@@ -16,9 +16,11 @@ import common.User;
 
 public class ServerConnection extends Thread {
 	private static final String ROOT_DIR = "/Users/prasant/Desktop/server/";
-	private static final int COMMAND_HEADER_SIZE = 5;
+	private static final int REQUEST_HEADER_SIZE = 5;
 	private static final String ENCODING_FORMAT = "ASCII";
-	private static final int INSTRUCTION_BUFFER_SIZE = 500;
+	private static final int REQUEST_BODY_BUFFER_SIZE = 500;
+	private static final String RESPONSE_HEADER_SIZE_FORMAT = "%010d";
+	private static final int RESPONSE_HEADER_SIZE = 10;
 	private int serverPort;
 	private int clientPort;
 	private String clientIp;
@@ -41,25 +43,21 @@ public class ServerConnection extends Thread {
 	}
 
 	private void listenToClient() throws IOException {
-		byte[] buf = new byte[INSTRUCTION_BUFFER_SIZE];
+		byte[] buf = new byte[REQUEST_BODY_BUFFER_SIZE];
 		if (socket.isClosed()) {
 			System.err.println("Socket closed");
 			return;
 		}
 		InputStream is = socket.getInputStream();
 
-		is.read(buf, 0, COMMAND_HEADER_SIZE);
-	//	String commandLengthString = "00025";
-		String commandLengthString = new String(buf, ENCODING_FORMAT);
-		commandLengthString = commandLengthString.trim();
-		System.out.println("commandLengthString : " + "'" + commandLengthString + "'");
-		//commandLengthString.replace("\uFEFF", "");
-		int commandLength = Integer.parseInt(commandLengthString);
-		System.out.println("command length string parsed : " + commandLength);
+		is.read(buf, 0, REQUEST_HEADER_SIZE);
+		String requestLengthString = new String(buf, ENCODING_FORMAT);
+		requestLengthString = requestLengthString.trim();
+		int requestLength = Integer.parseInt(requestLengthString);
 
-		assert commandLength <= INSTRUCTION_BUFFER_SIZE;
+		assert requestLength <= REQUEST_BODY_BUFFER_SIZE;
 
-		int readBytes = is.read(buf, 0, commandLength);
+		int readBytes = is.read(buf, 0, requestLength);
 		if (readBytes == -1) {
 			System.out.println("No bytes read");
 		}
@@ -68,22 +66,48 @@ public class ServerConnection extends Thread {
 
 		if (line != null && line.length() > 0) {
 			StringTokenizer tok = new StringTokenizer(line, ":");
-			String command = tok.nextToken();
+			String request = tok.nextToken();
 
-			if (command.equals("DownloadRequest")) {
+			if (request.equals("DownloadRequest")) {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating request to send file : '" + fileName+"'");
 				sendFile(ROOT_DIR + fileName);
-			} else if (command.equals("UploadRequest")) {
+			} else if (request.equals("UploadRequest")) {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating download for file : '" + fileName+"'");
 				receiveFile(ROOT_DIR + fileName);
+			} else if (request.equals("BrowseFiles")) {
+				String option = tok.nextToken().trim();
+				sendListOfFiles(option);
 			} else {
-				System.err.println("Unknown command : " + command);
+				System.err.println("Unknown command : " + request);
 			}
 			is.close();
 		}
 
+	}
+
+	private void sendListOfFiles(String option) {
+		// open a file for the root directory
+		File root = new File(ROOT_DIR);
+
+		// Root file should obviously be an assertion
+		assert root.isDirectory();
+
+		// Initialize StringBuilder
+		StringBuilder sb = new StringBuilder();
+		// Append all file names to String Builder
+		for (File file : root.listFiles()) {
+			sb.append(file.getName()).append(',');
+		}
+		// remove the last comma
+		sb.replace(sb.length()-1, sb.length(), "");
+		// add response header at the beginning
+		sb.insert(0, String.format(RESPONSE_HEADER_SIZE_FORMAT, sb.length() + RESPONSE_HEADER_SIZE));
+
+		String response = sb.toString();
+
+		/// ----------- send response string -----------
 	}
 
 	/**
