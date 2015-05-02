@@ -7,14 +7,13 @@ public class Client {
 	private String userName;
 	private String password;
 
-
-	public static void main(String[] args) {
-		System.out.println("running client");
-		Client c = new Client();
-//		c.uploadMedia(args[0], args[1]);
-		c.addUser("abcde", "email", "password");
-//		c.browseMedia();
-	}
+//	public static void main(String[] args) {
+//		System.out.println("running client");
+//		Client c = new Client();
+////		c.uploadMedia(args[0], args[1]);
+//		c.addUser("abcde", "email", "password");
+////		c.browseMedia();
+//	}
 
 	private String ip;
 	private int port;

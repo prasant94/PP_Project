@@ -146,6 +146,7 @@ public class ServerConnection extends Thread {
 				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
 				// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
 				// and append the request to it
+				System.out.println("------------------------");
 				System.out.println("sending response : " + response);
 				byte[] bytes = (String.format(RESPONSE_HEADER_SIZE_FORMAT, response.length()) + response).getBytes(ENCODING_FORMAT );
 				outToServer.write(bytes);
