@@ -22,7 +22,7 @@ public class ClientConnection {
 	private int SERVER_PORT = 4501;
 	private static final String ENCODING_FORMAT = "ASCII";
 	private static final int RESPONSE_HEADER_SIZE = 5;
-	private static final int RESPONSE_BODY_BUFFER_SIZE = 0;
+	private static final int RESPONSE_BODY_BUFFER_SIZE = 10240;
 
 
 	private Socket socket;
@@ -111,10 +111,6 @@ public class ClientConnection {
 
 		/// ----------- Read list of files -------------
 		byte[] buf = new byte[RESPONSE_BODY_BUFFER_SIZE];
-		if (socket.isClosed()) {
-			System.err.println("Socket closed");
-			return null;
-		}
 
 		InputStream is = null;
 		try {
@@ -129,7 +125,9 @@ public class ClientConnection {
 			String responseLengthString = null;
 			responseLengthString = new String(buf, ENCODING_FORMAT);
 			responseLengthString = responseLengthString.trim();
+			System.out.println("response Length string " + responseLengthString);
 			int responseLength = Integer.parseInt(responseLengthString);
+			System.out.println("response length "  + responseLength);
 
 			StringBuilder sb = new StringBuilder();
 			int bytesLeft = responseLength;
@@ -137,9 +135,11 @@ public class ClientConnection {
 				int bytesToRead = Math.min(RESPONSE_BODY_BUFFER_SIZE, bytesLeft);
 				int readBytes = is.read(buf, 0, bytesToRead);
 				sb.append(new String(buf, ENCODING_FORMAT));
+				System.out.println(sb);
 				bytesLeft -= readBytes;
-			} while (bytesLeft >= 0);
+			} while (bytesLeft > 0);
 
+			System.out.println("list of files : " + sb.toString());
 			return Arrays.asList(sb.toString().split(","));
 
 		} catch (UnsupportedEncodingException e) {

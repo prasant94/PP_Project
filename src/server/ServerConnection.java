@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,7 +22,7 @@ public class ServerConnection extends Thread {
 	private static final int REQUEST_HEADER_SIZE = 5;
 	private static final String ENCODING_FORMAT = "ASCII";
 	private static final int REQUEST_BODY_BUFFER_SIZE = 500;
-	private static final String RESPONSE_HEADER_SIZE_FORMAT = "%010d";
+	private static final String RESPONSE_HEADER_SIZE_FORMAT = "%05d";
 	private static final int RESPONSE_HEADER_SIZE = 10;
 	private int serverPort;
 	private int clientPort;
@@ -79,7 +80,7 @@ public class ServerConnection extends Thread {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating download for file : '" + fileName+"'");
 				receiveFile(ROOT_DIR + fileName);
-			} else if (request.equals("BrowseFiles")) {
+			} else if (request.equals("BrowseRequest")) {
 				String option = tok.nextToken().trim();
 				sendListOfFiles(option);
 			}
@@ -108,26 +109,38 @@ public class ServerConnection extends Thread {
 
 
 	private void sendListOfFiles(String option) {
-		// open a file for the root directory
-		File root = new File(ROOT_DIR);
+		if (option.equals("AllFiles")) {
+			// open a file for the root directory
+			File root = new File(ROOT_DIR);
 
-		// Root file should obviously be an assertion
-		assert root.isDirectory();
+			// Root file should obviously be an assertion
+			assert root.isDirectory();
 
-		// Initialize StringBuilder
-		StringBuilder sb = new StringBuilder();
-		// Append all file names to String Builder
-		for (File file : root.listFiles()) {
-			sb.append(file.getName()).append(',');
+			// Initialize StringBuilder
+			StringBuilder sb = new StringBuilder();
+			// Append all file names to String Builder
+			for (File file : root.listFiles()) {
+				sb.append(file.getName()).append(',');
+			}
+			// remove the last comma
+			sb.replace(sb.length()-1, sb.length(), "");
+
+			String response = sb.toString();
+
+			/// ----------- send response string -----------
+			try {
+				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+				// format request.length into a ServerConnection.COMMAND_HEADER_SIZE sized zero padded string
+				// and append the request to it
+				System.out.println("sending response : " + response);
+				byte[] bytes = (String.format(RESPONSE_HEADER_SIZE_FORMAT, response.length()) + response).getBytes(ENCODING_FORMAT );
+				outToServer.write(bytes);
+				outToServer.flush();
+			} catch (IOException e1) {
+				System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+				e1.printStackTrace();
+			}
 		}
-		// remove the last comma
-		sb.replace(sb.length()-1, sb.length(), "");
-		// add response header at the beginning
-		sb.insert(0, String.format(RESPONSE_HEADER_SIZE_FORMAT, sb.length() + RESPONSE_HEADER_SIZE));
-
-		String response = sb.toString();
-
-		/// ----------- send response string -----------
 	}
 
 	/**

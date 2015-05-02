@@ -1,6 +1,7 @@
 package client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Client {
 	private String userName;
@@ -11,7 +12,8 @@ public class Client {
 		System.out.println("running client");
 		Client c = new Client();
 //		c.uploadMedia(args[0], args[1]);
-		c.addUser("abc", "email", "password");
+//		c.addUser("abc", "email", "password");
+		c.browseMedia();
 	}
 
 	private String ip;
@@ -29,11 +31,8 @@ public class Client {
 	 *
 	 * @return
 	 */
-	public ArrayList<String> browseMedia(){
-		ArrayList<String> fileNames = new ArrayList<String>();
-		fileNames.add("file1");
-		fileNames.add("file2");
-		return fileNames;
+	public List<String> browseMedia(){
+		return clientConnection.getAvailableFileList();
 	}
 
 	/**
