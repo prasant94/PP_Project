@@ -17,7 +17,7 @@ public class Client {
 	/**
 	 *
 	 */
-	protected Client(){
+	public Client(){
 		this.serverConnection = new ClientConnection();
 	}
 
@@ -56,7 +56,7 @@ public class Client {
 	 * @param fileName
 	 * @return
 	 */
-	protected void uploadMedia(String filePath, String fileName){
+	public void uploadMedia(String filePath, String fileName){
 		serverConnection.uploadFile(filePath, fileName);
 	}
 

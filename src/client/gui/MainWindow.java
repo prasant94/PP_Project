@@ -1,88 +1,83 @@
 package client.gui;
 
 import java.awt.CardLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import client.Client;
-
-import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-
 import java.awt.Color;
-
-import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+import client.Client;
+
 public class MainWindow extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	final static String WELCOME_PANEL = "Welcome Panel";
 	final static String SIGN_IN_PANEL = "Sign In Panel";
 	final static String SIGN_UP_PANEL = "Sign Up Panel";
 	final static String DASHBOARD_PANEL = "Dashboard Panel";
 
 	static final String BROWSE_FILE_PANEL = "Browse File Panel";
-	
+
 	private JTextField passwordSignInTextField;
 	private JTextField usernameSignInTextField;
 	private JTextField usernameSignUpTextField;
 	private JTextField emailSignUpTextField;
 	private JTextField passwordSignUpTextField;
 	private JTextField confirmPasswordSignUpTextField;
-	
+
 	public Client client;
 	JPanel browseFilePanel;
-	
+
 	public MainWindow() {
 		client = new Client();
 		getContentPane().setLayout(new CardLayout(0, 0));
-		
+
 		JPanel welcomeWindowPanel = new JPanel();
 		getContentPane().add(welcomeWindowPanel, WELCOME_PANEL);
 		createWelcomePanel(welcomeWindowPanel);
-		
+
 		JPanel signInWindowPanel = new JPanel();
 		getContentPane().add(signInWindowPanel, SIGN_IN_PANEL);
 		createSignInPanel(signInWindowPanel);
-		
+
 		JPanel dashboardWindowPanel = new JPanel();
 		getContentPane().add(dashboardWindowPanel, DASHBOARD_PANEL);
 		createDashboardPanel(dashboardWindowPanel);
-		
+
 		JPanel signUpWindowPanel = new JPanel();
 		getContentPane().add(signUpWindowPanel, SIGN_UP_PANEL);
 		createSignUpPanel(signUpWindowPanel);
-		
+
 		browseFilePanel = new JPanel();
 		getContentPane().add(browseFilePanel, BROWSE_FILE_PANEL);
 		createBrowseFilePanel(browseFilePanel);
-		
-		
+
+
 	}
-	
+
 	private void createBrowseFilePanel(JPanel browseFilePanel) {
 		JLabel browseFileMessage = new JLabel("Select the file you want to Download...");
 		browseFilePanel.add(browseFileMessage);
-		
+
 	}
 
 	public static void main(String[] args){
-		
+
 		 MainWindow main = new MainWindow();
-		 
+
 		 main.setSize(500, 500);
 		 main.setVisible(true);
 	}
@@ -91,58 +86,59 @@ public class MainWindow extends JFrame {
        CardLayout cl = (CardLayout)(getContentPane().getLayout());
        cl.show(getContentPane(), panelName);
 	}
-   
+
 	private void displayErrorMessage(String string) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	private void browseFiles(JPanel panel) {
 		System.out.println("Entered browseFiles");
 		ArrayList<String> filesOnServer = client.browseMedia();
 		System.out.println(filesOnServer.size());
-//		ButtonGroup radioButtonGroup = new ButtonGroup(); 
+//		ButtonGroup radioButtonGroup = new ButtonGroup();
 		for(String s : filesOnServer){
 			browseFilePanel.add(new JRadioButton(s));
 		}
-		
-		
+
+
 	}
-	private boolean uploadFile() throws IOException {
+	private void uploadFile() throws IOException {
 
 		//Create a file chooser
 		final JFileChooser fc = new JFileChooser();
-		
+
 		fc.showOpenDialog(null);
 		String fileToUpload = fc.getSelectedFile().toString();
-		if(client.uploadMedia(fileToUpload)){
-			return true;
-		}
-		else{
-			return false;
-		}
+		String fileName = getFileNameFromPath(fileToUpload);
+		client.uploadMedia(fileToUpload, fileName);
 	}
-	
+
+	private String getFileNameFromPath(String fileToUpload) {
+		String[] tokens = fileToUpload.split("/");
+		return tokens[tokens.length-1];
+	}
+
 	private void createSignUpPanel(JPanel signUpWindowPanel) {
 		JLabel signUpPanelLabel = new JLabel("Sign Up");
 		JLabel usernameSignUpLabel = new JLabel("Username");
 		JLabel emailSignUpLabel = new JLabel("Email");
 		JLabel passwordSignUpLabel = new JLabel("Password");
 		JLabel confirmPasswordSignUpLabel = new JLabel("Confirm Password");
-		
+
 		usernameSignUpTextField = new JTextField();
 		usernameSignUpTextField.setColumns(10);
-		
+
 		emailSignUpTextField = new JTextField();
 		emailSignUpTextField.setColumns(10);
-		
+
 		passwordSignUpTextField = new JTextField();
 		passwordSignUpTextField.setColumns(10);
-		
+
 		confirmPasswordSignUpTextField = new JTextField();
 		confirmPasswordSignUpTextField.setColumns(10);
-		
+
 		JButton signUpButton = new JButton("Sign Up");
-		
+
 		GroupLayout gl_signUpWindowPanel = new GroupLayout(signUpWindowPanel);
 		gl_signUpWindowPanel.setHorizontalGroup(
 			gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
@@ -175,7 +171,7 @@ public class MainWindow extends JFrame {
 							.addComponent(signUpButton)))
 					.addContainerGap(105, Short.MAX_VALUE))
 		);
-		
+
 		gl_signUpWindowPanel.setVerticalGroup(
 			gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_signUpWindowPanel.createSequentialGroup()
@@ -212,6 +208,7 @@ public class MainWindow extends JFrame {
 	private void createDashboardPanel(JPanel dashboardWindowPanel) {
 		JButton uploadFileButton = new JButton("Upload File");
 		uploadFileButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					uploadFile();
@@ -225,14 +222,14 @@ public class MainWindow extends JFrame {
 
 		JButton DownloadButton = new JButton("Download");
 		DownloadButton.setEnabled(false);
-		
+
 		JButton browseFilesButton = new JButton("Browse Files");
-		
+
 		JButton StreamButton = new JButton("Stream");
 		StreamButton.setEnabled(false);
-		
+
 		JLabel dashboardLabel = new JLabel("Dashboard");
-		
+
 		GroupLayout gl_dashboardWIndowPanel = new GroupLayout(dashboardWindowPanel);
 		gl_dashboardWIndowPanel.setHorizontalGroup(
 			gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
@@ -255,7 +252,7 @@ public class MainWindow extends JFrame {
 							.addComponent(dashboardLabel)))
 					.addContainerGap(99, Short.MAX_VALUE))
 		);
-		
+
 		gl_dashboardWIndowPanel.setVerticalGroup(
 				gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
@@ -272,9 +269,10 @@ public class MainWindow extends JFrame {
 							.addComponent(StreamButton))
 						.addGap(34))
 			);
-		
+
 		dashboardWindowPanel.setLayout(gl_dashboardWIndowPanel);
 		browseFilesButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				browseFiles(panel);
 				goToPanel(BROWSE_FILE_PANEL);
@@ -285,19 +283,20 @@ public class MainWindow extends JFrame {
 	private void createSignInPanel(JPanel signInWindowPanel) {
 		JLabel usernameSignInLabel = new JLabel("Username - ");
 		JLabel passwordSignInLabel = new JLabel("Password -");
-		
+
 		passwordSignInTextField = new JTextField();
 		passwordSignInTextField.setColumns(20);
-		
+
 		usernameSignInTextField = new JTextField();
 		usernameSignInTextField.setColumns(20);
-		
+
 		JLabel signInWindowLabel = new JLabel("Sign In");
 		signInWindowLabel.setForeground(Color.BLACK);
-		
+
 		JButton signInButton = new JButton("Sign In");
 
 		signInButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				StringBuilder userInformation = new StringBuilder();
 				userInformation.append(usernameSignInTextField.getText()+","+ passwordSignInTextField.getText());
@@ -308,9 +307,9 @@ public class MainWindow extends JFrame {
 					displayErrorMessage("Username or Password Incorrect");
 				}
 			}});
-		
+
 		GroupLayout gl_signInWindowPanel = new GroupLayout(signInWindowPanel);
-		
+
 		gl_signInWindowPanel.setHorizontalGroup(
 			gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_signInWindowPanel.createSequentialGroup()
@@ -351,28 +350,30 @@ public class MainWindow extends JFrame {
 					.addComponent(signInButton)
 					.addContainerGap(67, Short.MAX_VALUE))
 		);
-		
+
 		signInWindowPanel.setLayout(gl_signInWindowPanel);
 	}
 
 	private void createWelcomePanel(JPanel welcomeWindowPanel) {
 		JLabel fileSharingLabel = new JLabel("File Sharing");
 		fileSharingLabel.setForeground(Color.BLACK);
-		
+
 		JButton signInWelcomeButton = new JButton("Sign In");
 		signInWelcomeButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToPanel(SIGN_IN_PANEL);
 			}
 		});
-		
+
 		JButton signUpWelcomeButton = new JButton("Sign Up");
 		signUpWelcomeButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToPanel(SIGN_UP_PANEL);
 			}
 		});
-		
+
 		JLabel newUserLabel = new JLabel("New User?");
 		GroupLayout gl_welcomeWindowPanel = new GroupLayout(welcomeWindowPanel);
 		gl_welcomeWindowPanel.setHorizontalGroup(
