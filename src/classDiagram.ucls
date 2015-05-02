@@ -3,16 +3,16 @@
   realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
   <class id="1" language="java" name="client.Client" project="PP_Project" file="/PP_Project/src/client/Client.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="314" width="274" x="282" y="37"/>    
+    <position height="314" width="274" x="2748" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="client.ServerConnection" project="PP_Project" 
-    file="/PP_Project/src/client/ServerConnection.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="188" width="154" x="333" y="391"/>    
+  <class id="2" language="java" name="client.ClientConnection" project="PP_Project" 
+    file="/PP_Project/src/client/ClientConnection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="188" width="154" x="2748" y="391"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="client.gui.MainWindow" project="PP_Project" 
     file="/PP_Project/src/client/gui/MainWindow.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="112" x="1190" y="37"/>    
+    <position height="80" width="112" x="1709" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="client.gui.SignInPanel" project="PP_Project" 
     file="/PP_Project/src/client/gui/SignInPanel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="106" x="876" y="391"/>    
+    <position height="98" width="255" x="1344" y="391"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="client.gui.SignUpPanel" project="PP_Project" 
     file="/PP_Project/src/client/gui/SignUpPanel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="112" x="1190" y="391"/>    
+    <position height="116" width="208" x="1803" y="391"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="client.gui.UploadWindow" project="PP_Project" 
     file="/PP_Project/src/client/gui/UploadWindow.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="128" x="1022" y="391"/>    
+    <position height="80" width="128" x="2051" y="391"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="client.gui.WelcomePanel" project="PP_Project" 
     file="/PP_Project/src/client/gui/WelcomePanel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="124" x="1342" y="391"/>    
+    <position height="80" width="124" x="1639" y="391"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="client.media.MediaPlayer" project="PP_Project" 
     file="/PP_Project/src/client/media/MediaPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="107" x="114" y="37"/>    
+    <position height="170" width="187" x="1105" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="client.media.VideoPlayer" project="PP_Project" 
     file="/PP_Project/src/client/media/VideoPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="105" x="41" y="391"/>    
+    <position height="170" width="187" x="986" y="865"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="client.media.AudioPlayer" project="PP_Project" 
     file="/PP_Project/src/client/media/AudioPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="107" x="186" y="391"/>    
+    <position height="170" width="187" x="1283" y="865"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="common.Audio" project="PP_Project" file="/PP_Project/src/common/Audio.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="98" x="527" y="709"/>    
+    <position height="80" width="98" x="2258" y="709"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <interface id="12" language="java" name="common.Streamable" project="PP_Project" 
     file="/PP_Project/src/common/Streamable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="62" width="114" x="458" y="829"/>    
+    <position height="62" width="114" x="2396" y="709"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -111,7 +111,7 @@
   </interface>  
   <class id="13" language="java" name="common.Upload" project="PP_Project" file="/PP_Project/src/common/Upload.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="98" x="527" y="391"/>    
+    <position height="80" width="98" x="2396" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="14" language="java" name="common.User" project="PP_Project" file="/PP_Project/src/common/User.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="98" x="665" y="709"/>    
+    <position height="80" width="98" x="794" y="709"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -129,16 +129,16 @@
   </class>  
   <class id="15" language="java" name="common.Video" project="PP_Project" file="/PP_Project/src/common/Video.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="80" width="98" x="389" y="709"/>    
+    <position height="80" width="98" x="2550" y="709"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="server.ClientConnection" project="PP_Project" 
-    file="/PP_Project/src/server/ClientConnection.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="278" width="150" x="686" y="391"/>    
+  <class id="16" language="java" name="server.ServerConnection" project="PP_Project" 
+    file="/PP_Project/src/server/ServerConnection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="278" width="150" x="794" y="391"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -147,7 +147,7 @@
   </class>  
   <class id="17" language="java" name="server.Database" project="PP_Project" file="/PP_Project/src/server/Database.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="242" width="243" x="596" y="37"/>    
+    <position height="314" width="243" x="235" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -156,102 +156,252 @@
   </class>  
   <class id="18" language="java" name="server.Server" project="PP_Project" file="/PP_Project/src/server/Server.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="134" width="271" x="879" y="37"/>    
+    <position height="188" width="271" x="794" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="19">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="13"/>  
-  </generalization>  
-  <association id="20">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="21" name="connections"/>      
-      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
+  <class id="19" language="java" name="common.Media" project="PP_Project" file="/PP_Project/src/common/Media.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="120" x="2396" y="391"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="client.gui.ErrorWindow" project="PP_Project" 
+    file="/PP_Project/src/client/gui/ErrorWindow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="137" x="2219" y="391"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="client.gui.PopUpWindow" project="PP_Project" 
+    file="/PP_Project/src/client/gui/PopUpWindow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="125" x="2135" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="client.gui.DashboardPanel" project="PP_Project" 
+    file="/PP_Project/src/client/gui/DashboardPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="154" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="client.gui.ItemListPanel" project="PP_Project" 
+    file="/PP_Project/src/client/gui/ItemListPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="174" x="2534" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="client.gui.ItemPanel" project="PP_Project" 
+    file="/PP_Project/src/client/gui/ItemPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="80" width="98" x="2556" y="391"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="client.media.DownloadingVisitor" project="PP_Project" 
+    file="/PP_Project/src/client/media/DownloadingVisitor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="236" x="1026" y="709"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="client.media.MediaVisitor" project="PP_Project" 
+    file="/PP_Project/src/client/media/MediaVisitor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="236" x="1047" y="391"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="client.media.StreamingVisitor" project="PP_Project" 
+    file="/PP_Project/src/client/media/StreamingVisitor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="236" x="518" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="28">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="29" name="items">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="16" navigable="true"/>    
+    <end type="TARGET" refId="24" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <association id="24">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="25" name="uploadWindow"/>      
-      <multiplicity id="26" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="27">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="28" name="welcomePanel"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="30">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="13"/>  
-  </dependency>  
-  <association id="31">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="32" name="serverConenction"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="34">    
-    <end type="SOURCE" refId="15"/>    
+  <realization id="31">    
+    <end type="SOURCE" refId="19"/>    
     <end type="TARGET" refId="12"/>  
   </realization>  
+  <association id="32">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="33" name="signInPanel">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <dependency id="35">    
-    <bendpoint x="655" y="391"/>    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="14"/>  
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="9"/>  
   </dependency>  
   <association id="36">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="37" name="signUpPanel"/>      
-      <multiplicity id="38" minimum="0" maximum="1"/>    
+      <attribute id="37" name="signUpPanel">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="39">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="40" name="signInPanel"/>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="40" name="serverConenction">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="42">    
-    <end type="SOURCE" refId="11"/>    
+  <association id="42">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="43" name="connections">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="45">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="19"/>  
+  </generalization>  
+  <generalization id="46">    
+    <end type="SOURCE" refId="19"/>    
     <end type="TARGET" refId="13"/>  
   </generalization>  
-  <association id="43">    
+  <dependency id="47">    
+    <bendpoint x="995" y="709"/>    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <generalization id="48">    
+    <bendpoint x="974" y="709"/>    
+    <bendpoint x="974" y="391"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="49">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="21"/>  
+  </generalization>  
+  <association id="50">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="51" name="uploadWindow">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="52" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="53">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <generalization id="54">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="26"/>  
+  </generalization>  
+  <generalization id="55">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="21"/>  
+  </generalization>  
+  <association id="56">    
     <end type="SOURCE" refId="16" navigable="false">      
-      <attribute id="44" name="user"/>      
-      <multiplicity id="45" minimum="0" maximum="1"/>    
+      <attribute id="57" name="user">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="46">    
+  <dependency id="59">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <generalization id="60">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="19"/>  
+  </generalization>  
+  <generalization id="61">    
+    <bendpoint x="1313" y="709"/>    
+    <bendpoint x="1313" y="391"/>    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="8"/>  
   </generalization>  
-  <realization id="47">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="12"/>  
-  </realization>  
+  <dependency id="62">    
+    <bendpoint x="1292" y="709"/>    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <association id="63">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="64" name="welcomePanel">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="65" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

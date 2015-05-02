@@ -4,15 +4,21 @@ import java.util.ArrayList;
 
 public class Client {
 
+	public static void main(String[] args) {
+		System.out.println("running client");
+		Client c = new Client();
+		c.downloadMedia(args[0], args[1]);
+	}
+
 	private String ip;
 	private int port;
-	private ServerConnection serverConenction;
+	private ClientConnection serverConenction;
 
 	/**
 	 *
 	 */
 	protected Client(){
-		// TODO
+		this.serverConenction = new ClientConnection();
 	}
 
 	/**
@@ -39,9 +45,8 @@ public class Client {
 	 * @param filename
 	 * @return
 	 */
-	protected boolean downloadMedia(String filename){
-		// TODO
-		return false;
+	protected void downloadMedia(String fileName, String saveAs){
+		serverConenction.downloadFile(fileName, saveAs);
 	}
 
 	/**
@@ -100,7 +105,7 @@ public class Client {
 	 *
 	 * @return
 	 */
-	public ServerConnection getServerConenction() {
+	public ClientConnection getServerConenction() {
 		return serverConenction;
 	}
 
@@ -108,7 +113,7 @@ public class Client {
 	 *
 	 * @param serverConenction
 	 */
-	public void setServerConenction(ServerConnection serverConenction) {
+	public void setServerConenction(ClientConnection serverConenction) {
 		this.serverConenction = serverConenction;
 	}
 }
