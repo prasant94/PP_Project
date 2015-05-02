@@ -25,9 +25,11 @@ public class Client {
 	 *
 	 * @return
 	 */
-	protected String browseMedia(){
-		// TODO
-		return null;
+	public ArrayList<String> browseMedia(){
+		ArrayList<String> fileNames = new ArrayList<String>();
+		fileNames.add("file1");
+		fileNames.add("file2");
+		return fileNames;
 	}
 
 	/**
@@ -115,4 +117,13 @@ public class Client {
 	public void setServerConenction(ClientConnection serverConenction) {
 		this.serverConnection = serverConenction;
 	}
+
+
+	public boolean isValidUser(String userInformation) {
+		// TODO Auto-generated method stub
+		String messageToServer = "validate user,";
+		messageToServer = messageToServer.concat(userInformation);
+		return true;
+	}
+
 }
