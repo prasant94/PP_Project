@@ -1,62 +1,90 @@
 package client.gui;
 
 import java.awt.CardLayout;
+import java.awt.Frame;
 import java.awt.Panel;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.Client;
+
 import java.awt.BorderLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+
 import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame {
 	final static String WELCOME_PANEL = "Welcome Panel";
 	final static String SIGN_IN_PANEL = "Sign In Panel";
 	final static String SIGN_UP_PANEL = "Sign Up Panel";
 	final static String DASHBOARD_PANEL = "Dashboard Panel";
+	
 	private JTextField passwordSignInTextField;
 	private JTextField usernameSignInTextField;
 	private JTextField usernameSignUpTextField;
 	private JTextField emailSignUpTextField;
 	private JTextField passwordSignUpTextField;
-	private JTextField textField;
+	private JTextField confirmPasswordSignUpTextField;
+	
+	public Client client;
 	
 	public MainWindow() {
 		getContentPane().setLayout(new CardLayout(0, 0));
 		
-		JPanel welcomePanel = new JPanel();
-		getContentPane().add(welcomePanel, "name_25468806608141");
+		JPanel welcomeWindowPanel = new JPanel();
+		JPanel signInWindowPanel = new JPanel();
+		JPanel dashboardWIndowPanel = new JPanel();
+		JPanel signUpWindowPanel = new JPanel();
+		
+		getContentPane().add(welcomeWindowPanel, WELCOME_PANEL);
+		getContentPane().add(signInWindowPanel, SIGN_IN_PANEL);
+		getContentPane().add(dashboardWIndowPanel, SIGN_UP_PANEL);
+		getContentPane().add(signUpWindowPanel, DASHBOARD_PANEL);
 		
 		JLabel fileSharingLabel = new JLabel("File Sharing");
 		fileSharingLabel.setForeground(Color.BLACK);
 		
 		JButton signInWelcomeButton = new JButton("Sign In");
+		signInWelcomeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				goToPanel(SIGN_IN_PANEL);
+			}
+		});
 		
 		JButton signUpWelcomeButton = new JButton("Sign Up");
+		signUpWelcomeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				goToPanel(SIGN_UP_PANEL);
+			}
+		});
 		
 		JLabel newUserLabel = new JLabel("New User?");
-		GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
-		gl_welcomePanel.setHorizontalGroup(
-			gl_welcomePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_welcomePanel.createSequentialGroup()
+		GroupLayout gl_welcomeWindowPanel = new GroupLayout(welcomeWindowPanel);
+		gl_welcomeWindowPanel.setHorizontalGroup(
+			gl_welcomeWindowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_welcomeWindowPanel.createSequentialGroup()
 					.addGap(183)
-					.addGroup(gl_welcomePanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_welcomeWindowPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(newUserLabel)
 						.addComponent(signUpWelcomeButton)
 						.addComponent(signInWelcomeButton)
 						.addComponent(fileSharingLabel))
 					.addGap(179))
 		);
-		gl_welcomePanel.setVerticalGroup(
-			gl_welcomePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_welcomePanel.createSequentialGroup()
+		gl_welcomeWindowPanel.setVerticalGroup(
+			gl_welcomeWindowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_welcomeWindowPanel.createSequentialGroup()
 					.addGap(5)
 					.addComponent(fileSharingLabel)
 					.addGap(65)
@@ -67,10 +95,10 @@ public class MainWindow extends JFrame {
 					.addComponent(signUpWelcomeButton)
 					.addContainerGap(98, Short.MAX_VALUE))
 		);
-		welcomePanel.setLayout(gl_welcomePanel);
+		welcomeWindowPanel.setLayout(gl_welcomeWindowPanel);
 		
-		JPanel signInPanel = new JPanel();
-		getContentPane().add(signInPanel, "name_25468806608141");
+		
+		
 		
 		JLabel usernameSignInLabel = new JLabel("Username - ");
 		
@@ -86,51 +114,56 @@ public class MainWindow extends JFrame {
 		signInWindowLabel.setForeground(Color.BLACK);
 		
 		JButton signInButton = new JButton("Sign In");
-		GroupLayout gl_signInPanel = new GroupLayout(signInPanel);
-		gl_signInPanel.setHorizontalGroup(
-			gl_signInPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_signInPanel.createSequentialGroup()
-					.addGroup(gl_signInPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_signInPanel.createSequentialGroup()
+		signInButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SignInPanel.validateCredentials(usernameSignInTextField.getText(), passwordSignInTextField.getText());
+				client.
+			}
+		});
+		GroupLayout gl_signInWindowPanel = new GroupLayout(signInWindowPanel);
+		gl_signInWindowPanel.setHorizontalGroup(
+			gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_signInWindowPanel.createSequentialGroup()
+					.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_signInWindowPanel.createSequentialGroup()
 							.addGap(70)
-							.addGroup(gl_signInPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_signInPanel.createSequentialGroup()
+							.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_signInWindowPanel.createSequentialGroup()
 									.addComponent(usernameSignInLabel)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(usernameSignInTextField, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_signInPanel.createSequentialGroup()
+								.addGroup(gl_signInWindowPanel.createSequentialGroup()
 									.addGap(6)
 									.addComponent(passwordSignInLabel)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_signInPanel.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
 										.addComponent(signInButton)
 										.addComponent(passwordSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-						.addGroup(gl_signInPanel.createSequentialGroup()
+						.addGroup(gl_signInWindowPanel.createSequentialGroup()
 							.addGap(162)
 							.addComponent(signInWindowLabel)))
 					.addContainerGap(59, Short.MAX_VALUE))
 		);
-		gl_signInPanel.setVerticalGroup(
-			gl_signInPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_signInPanel.createSequentialGroup()
+		gl_signInWindowPanel.setVerticalGroup(
+			gl_signInWindowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_signInWindowPanel.createSequentialGroup()
 					.addGap(34)
 					.addComponent(signInWindowLabel)
 					.addGap(44)
-					.addGroup(gl_signInPanel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(usernameSignInLabel)
 						.addComponent(usernameSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_signInPanel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_signInWindowPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(passwordSignInTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(passwordSignInLabel))
 					.addGap(31)
 					.addComponent(signInButton)
 					.addContainerGap(67, Short.MAX_VALUE))
 		);
-		signInPanel.setLayout(gl_signInPanel);
+		signInWindowPanel.setLayout(gl_signInWindowPanel);
 		
-		JPanel confirmPasswordSignUpTextField = new JPanel();
-		getContentPane().add(confirmPasswordSignUpTextField, "name_25468806608141");
+		
 		
 		JLabel signUpPanelLabel = new JLabel("Sign Up");
 		
@@ -151,65 +184,65 @@ public class MainWindow extends JFrame {
 		passwordSignUpTextField = new JTextField();
 		passwordSignUpTextField.setColumns(10);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		confirmPasswordSignUpTextField = new JTextField();
+		confirmPasswordSignUpTextField.setColumns(10);
 		
 		JButton signUpButton = new JButton("Sign Up");
-		GroupLayout gl_confirmPasswordSignUpTextField = new GroupLayout(confirmPasswordSignUpTextField);
-		gl_confirmPasswordSignUpTextField.setHorizontalGroup(
-			gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
-					.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+		GroupLayout gl_signUpWindowPanel = new GroupLayout(signUpWindowPanel);
+		gl_signUpWindowPanel.setHorizontalGroup(
+			gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_signUpWindowPanel.createSequentialGroup()
+					.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addGap(153)
 							.addComponent(signUpPanelLabel))
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addGap(47)
-							.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(usernameSignUpLabel)
-								.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+								.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 									.addGap(12)
 									.addComponent(confirmPasswordSignUpLabel))
 								.addComponent(emailSignUpLabel)
 								.addComponent(passwordSignUpLabel))
-							.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+							.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 									.addGap(44)
-									.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-										.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(confirmPasswordSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(passwordSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(emailSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+								.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 									.addGap(35)
 									.addComponent(usernameSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addGap(168)
 							.addComponent(signUpButton)))
 					.addContainerGap(105, Short.MAX_VALUE))
 		);
-		gl_confirmPasswordSignUpTextField.setVerticalGroup(
-			gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
-					.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+		gl_signUpWindowPanel.setVerticalGroup(
+			gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_signUpWindowPanel.createSequentialGroup()
+					.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addGap(85)
-							.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.BASELINE)
+							.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(usernameSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(usernameSignUpLabel)))
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addGap(20)
 							.addComponent(signUpPanelLabel)))
 					.addGap(18)
-					.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+					.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addComponent(emailSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addGroup(gl_confirmPasswordSignUpTextField.createParallelGroup(Alignment.BASELINE)
+							.addGroup(gl_signUpWindowPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(passwordSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(passwordSignUpLabel))
 							.addGap(18)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_confirmPasswordSignUpTextField.createSequentialGroup()
+							.addComponent(confirmPasswordSignUpTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_signUpWindowPanel.createSequentialGroup()
 							.addComponent(emailSignUpLabel)
 							.addGap(64)
 							.addComponent(confirmPasswordSignUpLabel)))
@@ -217,10 +250,9 @@ public class MainWindow extends JFrame {
 					.addComponent(signUpButton)
 					.addContainerGap(20, Short.MAX_VALUE))
 		);
-		confirmPasswordSignUpTextField.setLayout(gl_confirmPasswordSignUpTextField);
+		signUpWindowPanel.setLayout(gl_signUpWindowPanel);
 		
-		JPanel dashboardPanel = new JPanel();
-		getContentPane().add(dashboardPanel, "name_25468806608141");
+		
 		
 		JButton uploadFileButton = new JButton("Upload File");
 		
@@ -235,45 +267,45 @@ public class MainWindow extends JFrame {
 		StreamButton.setEnabled(false);
 		
 		JLabel dashboardLabel = new JLabel("Dashboard");
-		GroupLayout gl_dashboardPanel = new GroupLayout(dashboardPanel);
-		gl_dashboardPanel.setHorizontalGroup(
-			gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_dashboardPanel.createSequentialGroup()
-					.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_dashboardPanel.createSequentialGroup()
+		GroupLayout gl_dashboardWIndowPanel = new GroupLayout(dashboardWIndowPanel);
+		gl_dashboardWIndowPanel.setHorizontalGroup(
+			gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
+					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 							.addGap(48)
-							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_dashboardPanel.createSequentialGroup()
+							.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 									.addComponent(DownloadButton)
 									.addGap(18)
 									.addComponent(StreamButton))
 								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 303, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_dashboardPanel.createSequentialGroup()
+								.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 									.addComponent(browseFilesButton)
 									.addGap(18)
 									.addComponent(uploadFileButton))))
-						.addGroup(gl_dashboardPanel.createSequentialGroup()
+						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 							.addGap(151)
 							.addComponent(dashboardLabel)))
 					.addContainerGap(99, Short.MAX_VALUE))
 		);
-		gl_dashboardPanel.setVerticalGroup(
-			gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_dashboardPanel.createSequentialGroup()
+		gl_dashboardWIndowPanel.setVerticalGroup(
+			gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 					.addComponent(dashboardLabel)
 					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-					.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(browseFilesButton)
 						.addComponent(uploadFileButton))
 					.addGap(20)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(DownloadButton)
 						.addComponent(StreamButton))
 					.addGap(34))
 		);
-		dashboardPanel.setLayout(gl_dashboardPanel);
+		dashboardWIndowPanel.setLayout(gl_dashboardWIndowPanel);
 	
 	}
 	
@@ -287,11 +319,29 @@ public class MainWindow extends JFrame {
 //		cards.add(signInPanel,SIGN_IN_PANEL);
 //		cards.add(signUpPanel,SIGN_UP_PANEL);
 //		cards.add(dashboardPanel,DASHBOARD_PANEL);
-//		
 //	}
 
 	public static void main(String[] args){
 		
-		MainWindow main = new MainWindow();
+		 MainWindow main = new MainWindow();
+		 
+		 main.setSize(500, 500);
+		 main.setVisible(true);
 	}
+	
+	
+	private void goToNextPanel() {
+        CardLayout cl = (CardLayout)(getContentPane().getLayout());
+        cl.next(getContentPane());
+    }
+//
+    private void goToPrevPanel() {
+        CardLayout cl = (CardLayout)(getContentPane().getLayout());
+        cl.previous(getContentPane());
+    }
+
+    private void goToPanel(String panelName) {
+        CardLayout cl = (CardLayout)(getContentPane().getLayout());
+        cl.show(getContentPane(), panelName);
+    }
 }

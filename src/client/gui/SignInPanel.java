@@ -7,7 +7,7 @@ public class SignInPanel extends JPanel {
 		// TODO
 	}
 
-	private boolean validateCredentials(String username, String password) {
+	public	static boolean validateCredentials(String username, String password) {
 		// TODO
 		return false;
 	}
