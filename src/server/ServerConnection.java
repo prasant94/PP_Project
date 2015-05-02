@@ -73,7 +73,7 @@ public class ServerConnection extends Thread {
 			if (command.equals("DownloadRequest")) {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating request to send file : '" + fileName+"'");
-				sendFile(fileName);
+				sendFile(ROOT_DIR + fileName);
 			} else if (command.equals("UploadRequest")) {
 				String fileName = tok.nextToken().trim();
 				System.out.println("Initiating download for file : '" + fileName+"'");

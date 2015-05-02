@@ -2,6 +2,7 @@ package client.gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -91,16 +92,16 @@ public class MainWindow extends JFrame {
 		// TODO Auto-generated method stub
 	}
 
-	private void browseFiles(JPanel panel) {
-		System.out.println("Entered browseFiles");
+	private void browseFiles() {
 		ArrayList<String> filesOnServer = client.browseMedia();
-		System.out.println(filesOnServer.size());
+		JPanel fileList = new JPanel();
+
+		fileList.setLayout(new GridLayout(filesOnServer.size(), 1));
 //		ButtonGroup radioButtonGroup = new ButtonGroup();
 		for(String s : filesOnServer){
-			browseFilePanel.add(new JRadioButton(s));
+			fileList.add(new JRadioButton(s));
 		}
-
-
+		browseFilePanel.add(fileList);
 	}
 	private void uploadFile() throws IOException {
 
@@ -274,7 +275,7 @@ public class MainWindow extends JFrame {
 		browseFilesButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				browseFiles(panel);
+				browseFiles();
 				goToPanel(BROWSE_FILE_PANEL);
 			}
 		});
