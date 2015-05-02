@@ -1,12 +1,11 @@
 package client;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -33,16 +32,16 @@ public class ClientConnection {
 		}
 	}
 
-	public void sendMessage(String message) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        writer.write(message);
-        writer.flush();
-        writer.close();
-    }
-
-	public void downloadFile(String fileName, String saveAs) throws IOException {
+	public void downloadFile(String fileName, String saveAs) {
 		/// ----------- send file name to server ------------
-		sendMessage(fileName);
+		try {
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			outToServer.writeChars("DownloadRequest:" + fileName);
+			outToServer.flush();
+		} catch (IOException e1) {
+			System.err.println("error occurs when creating the output stream or if the socket is not connected.");
+			e1.printStackTrace();
+		}
 
 		/// ----------- accept file -----------
 		byte[] aByte = new byte[1];
@@ -59,17 +58,8 @@ public class ClientConnection {
 			e.printStackTrace();
 		}
 
-//        try {
-//            clientSocket = new Socket("127.0.0.1", 3248);
-//            is = clientSocket.getInputStream();
-//        } catch (IOException ex) {
-//            // Do exception handling
-//        }
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-//		Scanner s = new Scanner(System.in);
-//		s.next();
         if (is != null) {
         	System.out.println("Inupt stream is not null");
 

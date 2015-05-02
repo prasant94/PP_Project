@@ -35,45 +35,38 @@ public class ServerConnection extends Thread {
 		}
 	}
 
-	public String readResponse(InputStream is) throws IOException{
-        String userInput;
-//        BufferedReader stdIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        byte[] buf = new byte[1024];
-        is.read(buf, 0, 1024);
-        int read;
-        StringBuilder sb = new StringBuilder();
-        while ((read = is.read(buf)) != -1) {
-        	sb.append(read);
-        }
-        System.out.println("Response from server:");
-
-//        while ((userInput = stdIn.readLine()) != null) {
-//            System.out.println(userInput);
-//            sb.append(userInput);
-//        }
-        return sb.toString();
-    }
-
 	private void listenToClient() throws IOException {
 		byte[] buf = new byte[500];
 		System.out.println("Entering listenToClient" );
-		InputStream is = socket.getInputStream();
-		String line = readResponse(is);
-		if (line != null && line.length() > 0) {
-			StringTokenizer tok = new StringTokenizer(line, ":");
-			String command = tok.nextToken();
-
-			if (command.equals("DownloadRequest")) {
-				String fileName = tok.nextToken().trim();
-				System.out.println("Initiating request to send file : " + fileName);
-				sendFile(fileName);
-				System.out.println("returned from send file");
-			} else {
-				System.err.println("Unknown command : " + command);
+			if (socket.isClosed()) {
+				System.out.println("socket closed at CC40");
+				return;
 			}
-		is.close();
-		socket.close();
-		}
+			System.out.println("socket open at CC40");
+			//BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			InputStream is = socket.getInputStream();
+			//String s = new String()
+//			String line = br.readLine();
+			int readBytes = is.read(buf, 0,500);
+			String line = new String(buf);
+			//String line = Arrays.toString(buf);
+			System.out.println("line: " + line);
+			if (line != null && line.length() > 0) {
+				StringTokenizer tok = new StringTokenizer(line, ":");
+				String command = tok.nextToken();
+
+//				if (command.equals("DownloadRequest")) {
+					String fileName = tok.nextToken().trim();
+					System.out.println("Initiating request to send file : " + fileName);
+					sendFile(fileName);
+					System.out.println("returned from send file");
+//				} else {
+//					System.err.println("Unknown command : " + command);
+//				}
+			is.close();
+			//socket.close();
+			}
+
 	}
 
 	private void sendFile(String fileName) {
