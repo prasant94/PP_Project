@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ClientConnection {
-	private static final String SERVER_IP = "192.168.55.240";
+	private static final String SERVER_IP = "192.168.48.233";
 	private static final String REQUEST_HEADER_SIZE_FORMAT = "%05d";
 	private int SERVER_PORT = 4501;
 	private static final String ENCODING_FORMAT = "ASCII";

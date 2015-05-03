@@ -26,7 +26,8 @@ import client.Client;
 
 public class MainWindow extends JFrame {
 
-	private static final String DOWNLOAD_DIR = "/home/juhi/";
+//	private static final String DOWNLOAD_DIR = "/home/juhi/";
+	private static final String DOWNLOAD_DIR = "/Users/prasant/Desktop/";
 
 	private static final long serialVersionUID = 1L;
 
@@ -100,16 +101,26 @@ public class MainWindow extends JFrame {
 
 		JButton streamFileButton = new JButton("Stream");
 		streamFileButton.setEnabled(false);
-		
+
 		JButton downloadAndPlayButton = new JButton("downloadAndPlayButton");
 		downloadAndPlayButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(fileToBeDownloaded==null){
 					displayErrorMessage("Select a file");
 				}
 				else{
 					client.downloadMedia(fileToBeDownloaded, DOWNLOAD_DIR + fileToBeDownloaded);
-					//prasant
+					if (!fileToBeDownloaded.endsWith("mp3") && !fileToBeDownloaded.endsWith("mp4")) {
+						displayErrorMessage("This file cannot be played");
+					}
+			        try {
+			        	ProcessBuilder pb = new ProcessBuilder("/Applications/VLC.app/Contents/MacOS/VLC", DOWNLOAD_DIR + fileToBeDownloaded);
+						Process start = pb.start();
+					} catch (IOException e1) {
+						System.err.println("file could not be played");
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
