@@ -26,7 +26,7 @@ import client.Client;
 
 public class MainWindow extends JFrame {
 
-	private static final String DOWNLOAD_DIR = "/Users/prasant/Desktop/";
+	private static final String DOWNLOAD_DIR = "/home/juhi/";
 
 	private static final long serialVersionUID = 1L;
 
@@ -100,33 +100,46 @@ public class MainWindow extends JFrame {
 
 		JButton streamFileButton = new JButton("Stream");
 		streamFileButton.setEnabled(false);
+		
+		JButton downloadAndPlayButton = new JButton("downloadAndPlayButton");
+		downloadAndPlayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fileToBeDownloaded==null){
+					displayErrorMessage("Select a file");
+				}
+				else{
+					client.downloadMedia(fileToBeDownloaded, DOWNLOAD_DIR + fileToBeDownloaded);
+					//prasant
+				}
+			}
+		});
 		GroupLayout gl_informationInBrowsePanel = new GroupLayout(informationInBrowsePanel);
 		gl_informationInBrowsePanel.setHorizontalGroup(
-			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
+			gl_informationInBrowsePanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-					.addGap(147)
-					.addComponent(fileToDownloadChosenButton)
-					.addGap(18)
-					.addComponent(streamFileButton)
-					.addContainerGap(95, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_informationInBrowsePanel.createSequentialGroup()
 					.addContainerGap(98, Short.MAX_VALUE)
 					.addComponent(fileChooseLabel)
 					.addGap(67))
+				.addGroup(Alignment.LEADING, gl_informationInBrowsePanel.createSequentialGroup()
+					.addGap(24)
+					.addComponent(fileToDownloadChosenButton)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(downloadAndPlayButton)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(streamFileButton)
+					.addContainerGap(42, Short.MAX_VALUE))
 		);
 		gl_informationInBrowsePanel.setVerticalGroup(
 			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-					.addContainerGap(46, Short.MAX_VALUE)
+					.addContainerGap(22, Short.MAX_VALUE)
 					.addComponent(fileChooseLabel)
-					.addGroup(gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-							.addGap(12)
-							.addComponent(fileToDownloadChosenButton))
-						.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(streamFileButton)))
-					.addGap(51))
+					.addGap(18)
+					.addGroup(gl_informationInBrowsePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(fileToDownloadChosenButton)
+						.addComponent(downloadAndPlayButton)
+						.addComponent(streamFileButton))
+					.addGap(34))
 		);
 		informationInBrowsePanel.setLayout(gl_informationInBrowsePanel);
 
