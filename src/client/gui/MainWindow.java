@@ -2,6 +2,7 @@ package client.gui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +17,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import client.Client;
-import javax.swing.JPasswordField;
-import java.awt.Font;
 
 public class MainWindow extends JFrame {
 
@@ -38,14 +38,18 @@ public class MainWindow extends JFrame {
 	private JTextField usernameSignUpTextField;
 	private JTextField emailSignUpTextField;
 
-	public Client client;
 	JPanel browseFilePanel;
 	JPanel fileList;
 	private JPasswordField passwordSignInTextField;
 	private JPasswordField passwordSignUpTextField;
 	private JPasswordField confirmPasswordSignUpTextField;
+
+	public Client client;
+	private boolean signedIn;
+
 	public MainWindow() {
-//		client = new Client();
+		client = new Client();
+		signedIn = false;
 		getContentPane().setLayout(new CardLayout(0, 0));
 
 		JPanel welcomeWindowPanel = new JPanel();
@@ -141,7 +145,11 @@ public class MainWindow extends JFrame {
 		//Create a file chooser
 		final JFileChooser fc = new JFileChooser();
 
-		fc.showOpenDialog(null);
+		int option = fc.showOpenDialog(null);
+		if (option == JFileChooser.CANCEL_OPTION || option == JFileChooser.CANCEL_OPTION) {
+			System.out.println("error in choosing file");
+			return;
+		}
 		String fileToUpload = fc.getSelectedFile().toString();
 		String fileName = getFileNameFromPath(fileToUpload);
 		client.uploadMedia(fileToUpload, fileName);
@@ -167,22 +175,28 @@ public class MainWindow extends JFrame {
 
 		JButton signUpButton = new JButton("Sign Up");
 		signUpButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				client = new Client();
-				client.addUser(usernameSignUpTextField.getText(), emailSignUpTextField.getText(), passwordSignUpTextField.getText());
+				// client = new Client();
+				signedIn = client.addUser(usernameSignUpTextField.getText(), emailSignUpTextField.getText(), passwordSignUpTextField.getText());
+				System.out.println("signed in : " + signedIn);
+				if (!signedIn) {
+					return;
+				}
 				goToPanel(DASHBOARD_PANEL);
 			}
 		});
-		
+
 		passwordSignUpTextField = new JPasswordField();
 		passwordSignUpTextField.setColumns(10);
-		
+
 		confirmPasswordSignUpTextField = new JPasswordField();
 		confirmPasswordSignUpTextField.setColumns(10);
-		
+
 		JButton backSignUpButton = new JButton("Back");
 		backSignUpButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToPanel(WELCOME_PANEL);
 			}
@@ -269,7 +283,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void createDashboardPanel(JPanel dashboardWindowPanel) {
-		
+
 		JButton uploadFileButton = new JButton("Upload File");
 		uploadFileButton.addActionListener(new ActionListener() {
 			@Override
@@ -282,7 +296,7 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
-		
+
 		JButton DownloadButton = new JButton("Download");
 		DownloadButton.setEnabled(false);
 
@@ -347,7 +361,7 @@ public class MainWindow extends JFrame {
 
 	private void addCurrentFilesToPanel(JPanel panel) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void createSignInPanel(JPanel signInWindowPanel) {
@@ -365,7 +379,7 @@ public class MainWindow extends JFrame {
 		signInButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				client = new Client();
+				// client = new Client();
 				StringBuilder userInformation = new StringBuilder();
 				userInformation.append(usernameSignInTextField.getText()+","+ passwordSignInTextField.getText());
 				if(client.isValidUser(userInformation.toString())){
@@ -375,12 +389,13 @@ public class MainWindow extends JFrame {
 					displayErrorMessage("Username or Password Incorrect");
 				}
 			}});
-		
+
 		passwordSignInTextField = new JPasswordField();
 		passwordSignInTextField.setColumns(20);
-		
+
 		JButton backSignInButton = new JButton("Back");
 		backSignInButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToPanel(WELCOME_PANEL);
 			}

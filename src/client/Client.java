@@ -127,9 +127,9 @@ public class Client {
 		return false;
 	}
 
-	public void addUser(String name, String email, String password){
+	public boolean addUser(String name, String email, String password){
 		System.out.println("add client");
-		clientConnection.addUser(name, email, password);
+		return clientConnection.addUser(name, email, password);
 	}
 
 }

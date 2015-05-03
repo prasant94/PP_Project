@@ -33,18 +33,32 @@ public class ClientConnection {
 	 *
 	 */
 	public ClientConnection() {
+//		try {
+//			this.socket = new Socket(SERVER_IP, SERVER_PORT);
+//		} catch (UnknownHostException e) {
+//			System.err.println("Failed to establish a connection with the server.");
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			System.err.println("Failed to create a socket.");
+//			e.printStackTrace();
+//		}
+	}
+
+	public void setUpConnection() {
 		try {
 			this.socket = new Socket(SERVER_IP, SERVER_PORT);
 		} catch (UnknownHostException e) {
-			System.err.println("Failed to establish a connection with the server.");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Failed to create a socket.");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public void uploadFile(String filePath, String fileName) {
+		setUpConnection();
+		System.out.println("filePath : " + filePath + ", fileName : " + fileName);
 		DataOutputStream outToServer = null;
 
 		/// ----------- send file name to server ------------
@@ -95,6 +109,7 @@ public class ClientConnection {
 	}
 
 	public List<String> getAvailableFileList() {
+		setUpConnection();
 		/// ----------- send file name to server ------------
 		try {
 			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
@@ -153,6 +168,7 @@ public class ClientConnection {
 	}
 
 	public void downloadFile(String fileName, String saveAs) {
+		setUpConnection();
 		/// ----------- send file name to server ------------
 		try {
 			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
@@ -207,6 +223,7 @@ public class ClientConnection {
 
 
 	public boolean addUser(String name, String email, String password) {
+		setUpConnection();
 		/// ----------- send user details to server ------------
 		String userDetails = name.concat(";").concat(email).concat(";").concat(password);
 		try {
@@ -243,7 +260,7 @@ public class ClientConnection {
 
 			String line = new String(buf, ENCODING_FORMAT);
 			System.out.println("adding user : resopnse from server : " + line);
-			if (line.equals("SignUp Successful")) {
+			if (line.trim().equalsIgnoreCase("SignUp Successful")) {
 				return true;
 			} else {
 				return false;
