@@ -85,7 +85,7 @@ public class MainWindow extends JFrame {
 
 		JLabel fileChooseLabel = new JLabel("Choose the file you want to download...");
 
-		JButton fileToDownloadChosenButton = new JButton("Done");
+		JButton fileToDownloadChosenButton = new JButton("Download");
 		fileToDownloadChosenButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -97,33 +97,42 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
+
+		JButton streamFileButton = new JButton("Stream");
+		streamFileButton.setEnabled(false);
 		GroupLayout gl_informationInBrowsePanel = new GroupLayout(informationInBrowsePanel);
 		gl_informationInBrowsePanel.setHorizontalGroup(
-			gl_informationInBrowsePanel.createParallelGroup(Alignment.TRAILING)
+			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-					.addContainerGap(97, Short.MAX_VALUE)
-					.addComponent(fileChooseLabel)
-					.addGap(68))
-				.addGroup(Alignment.LEADING, gl_informationInBrowsePanel.createSequentialGroup()
-					.addGap(156)
+					.addGap(147)
 					.addComponent(fileToDownloadChosenButton)
-					.addContainerGap(223, Short.MAX_VALUE))
+					.addGap(18)
+					.addComponent(streamFileButton)
+					.addContainerGap(95, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_informationInBrowsePanel.createSequentialGroup()
+					.addContainerGap(98, Short.MAX_VALUE)
+					.addComponent(fileChooseLabel)
+					.addGap(67))
 		);
 		gl_informationInBrowsePanel.setVerticalGroup(
 			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-					.addGap(21)
+					.addContainerGap(46, Short.MAX_VALUE)
 					.addComponent(fileChooseLabel)
-					.addPreferredGap(ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-					.addComponent(fileToDownloadChosenButton)
-					.addGap(37))
+					.addGroup(gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
+							.addGap(12)
+							.addComponent(fileToDownloadChosenButton))
+						.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(streamFileButton)))
+					.addGap(51))
 		);
 		informationInBrowsePanel.setLayout(gl_informationInBrowsePanel);
 
 		JPanel fileList = new JPanel();
 		browseFilePanel.add(fileList);
 		return fileList;
-
 	}
 
 	public static void main(String[] args){
@@ -146,6 +155,7 @@ public class MainWindow extends JFrame {
 	String fileToBeDownloaded=null;
 	private void browseFiles() {
 		List<String> filesOnServer = client.browseMedia();
+
 		fileList.setLayout(new GridLayout(filesOnServer.size(), 1));
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		for(String s : filesOnServer){
@@ -318,13 +328,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		JButton DownloadButton = new JButton("Download");
-		DownloadButton.setEnabled(false);
-
 		JButton browseFilesButton = new JButton("Browse Files");
-
-		JButton StreamButton = new JButton("Stream");
-		StreamButton.setEnabled(false);
 
 		JLabel dashboardLabel = new JLabel("Dashboard");
 
@@ -335,22 +339,16 @@ public class MainWindow extends JFrame {
 					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 							.addGap(48)
-							.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
-									.addComponent(DownloadButton)
-									.addGap(95)
-									.addComponent(StreamButton))
-								.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
-									.addComponent(browseFilesButton)
-									.addGap(58)
-									.addComponent(uploadFileButton))))
+							.addComponent(browseFilesButton)
+							.addGap(58)
+							.addComponent(uploadFileButton))
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 							.addGap(151)
 							.addComponent(dashboardLabel)))
 					.addContainerGap(107, Short.MAX_VALUE))
 		);
 		gl_dashboardWIndowPanel.setVerticalGroup(
-			gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
+			gl_dashboardWIndowPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
@@ -362,12 +360,7 @@ public class MainWindow extends JFrame {
 							.addGap(56)
 							.addComponent(uploadFileButton)
 							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addComponent(DownloadButton)
-					.addGap(34))
-				.addGroup(Alignment.TRAILING, gl_dashboardWIndowPanel.createSequentialGroup()
-					.addContainerGap(231, Short.MAX_VALUE)
-					.addComponent(StreamButton)
-					.addGap(44))
+					.addGap(59))
 		);
 
 		dashboardWindowPanel.setLayout(gl_dashboardWIndowPanel);
