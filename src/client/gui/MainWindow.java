@@ -84,26 +84,38 @@ public class MainWindow extends JFrame {
 		JLabel fileChooseLabel = new JLabel("Choose the file you want to download...");
 
 		JButton fileToDownloadChosenButton = new JButton("Done");
+		fileToDownloadChosenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(fileToBeDownloaded==null){
+					displayErrorMessage("Select a file");
+				}
+				else{
+					client.downloadMedia(fileToBeDownloaded, "/home/juhi/workspace/PP_Project/server");
+					fileToBeDownloaded = null;
+				}
+			}
+		});
 		GroupLayout gl_informationInBrowsePanel = new GroupLayout(informationInBrowsePanel);
 		gl_informationInBrowsePanel.setHorizontalGroup(
-			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_informationInBrowsePanel.createSequentialGroup()
+			gl_informationInBrowsePanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
 					.addContainerGap(97, Short.MAX_VALUE)
 					.addComponent(fileChooseLabel)
 					.addGap(68))
-				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
-					.addGap(152)
+				.addGroup(Alignment.LEADING, gl_informationInBrowsePanel.createSequentialGroup()
+					.addGap(156)
 					.addComponent(fileToDownloadChosenButton)
-					.addContainerGap(181, Short.MAX_VALUE))
+					.addContainerGap(223, Short.MAX_VALUE))
 		);
 		gl_informationInBrowsePanel.setVerticalGroup(
 			gl_informationInBrowsePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_informationInBrowsePanel.createSequentialGroup()
 					.addGap(21)
 					.addComponent(fileChooseLabel)
-					.addGap(27)
+					.addPreferredGap(ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
 					.addComponent(fileToDownloadChosenButton)
-					.addContainerGap(48, Short.MAX_VALUE))
+					.addGap(37))
 		);
 		informationInBrowsePanel.setLayout(gl_informationInBrowsePanel);
 
@@ -130,12 +142,20 @@ public class MainWindow extends JFrame {
 		ErrorWindow err = new ErrorWindow(string);
 	}
 
+	String fileToBeDownloaded=null;
 	private void browseFiles() {
 		List<String> filesOnServer = client.browseMedia();
 		fileList.setLayout(new GridLayout(filesOnServer.size(), 1));
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		for(String s : filesOnServer){
 			JRadioButton file = new JRadioButton(s);
+			file.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+                    fileToBeDownloaded = ((JRadioButton)(e.getSource())).getText();
+                    System.out.println(fileToBeDownloaded);
+                }
+            });
 			fileList.add(file);
 			radioButtonGroup.add(file);
 		}

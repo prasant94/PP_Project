@@ -49,7 +49,7 @@ public class Client {
 	 * @param filename
 	 * @return
 	 */
-	protected void downloadMedia(String fileName, String saveAs){
+	public void downloadMedia(String fileName, String saveAs){
 		clientConnection.downloadFile(fileName, saveAs);
 	}
 
@@ -124,8 +124,9 @@ public class Client {
 	public boolean isValidUser(String userInformation) {
 		String messageToServer = "validate user,";
 		messageToServer = messageToServer.concat(userInformation);
-		return false;
+		return true;
 	}
+	
 
 	public boolean addUser(String name, String email, String password){
 		System.out.println("add client");
