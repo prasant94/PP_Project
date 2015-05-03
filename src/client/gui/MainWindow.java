@@ -336,14 +336,14 @@ public class MainWindow extends JFrame {
 				.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
-							.addGap(48)
+							.addGap(63)
 							.addComponent(browseFilesButton)
-							.addGap(58)
+							.addGap(46)
 							.addComponent(uploadFileButton))
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 							.addGap(151)
 							.addComponent(dashboardLabel)))
-					.addContainerGap(107, Short.MAX_VALUE))
+					.addContainerGap(104, Short.MAX_VALUE))
 		);
 		gl_dashboardWIndowPanel.setVerticalGroup(
 			gl_dashboardWIndowPanel.createParallelGroup(Alignment.TRAILING)
@@ -351,14 +351,12 @@ public class MainWindow extends JFrame {
 					.addGroup(gl_dashboardWIndowPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
 							.addComponent(dashboardLabel)
-							.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-							.addComponent(browseFilesButton)
-							.addGap(122))
+							.addGap(65)
+							.addComponent(browseFilesButton))
 						.addGroup(gl_dashboardWIndowPanel.createSequentialGroup()
-							.addGap(56)
-							.addComponent(uploadFileButton)
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addGap(59))
+							.addGap(69)
+							.addComponent(uploadFileButton)))
+					.addContainerGap(167, Short.MAX_VALUE))
 		);
 
 		dashboardWindowPanel.setLayout(gl_dashboardWIndowPanel);
