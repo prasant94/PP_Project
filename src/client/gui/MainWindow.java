@@ -26,6 +26,8 @@ import client.Client;
 
 public class MainWindow extends JFrame {
 
+	private static final String DOWNLOAD_DIR = "/Users/prasant/Desktop/";
+
 	private static final long serialVersionUID = 1L;
 
 	final static String WELCOME_PANEL = "Welcome Panel";
@@ -91,8 +93,7 @@ public class MainWindow extends JFrame {
 					displayErrorMessage("Select a file");
 				}
 				else{
-					client.downloadMedia(fileToBeDownloaded, "/home/juhi/workspace/PP_Project/server");
-					fileToBeDownloaded = null;
+					client.downloadMedia(fileToBeDownloaded, DOWNLOAD_DIR + fileToBeDownloaded);
 				}
 			}
 		});
@@ -152,7 +153,7 @@ public class MainWindow extends JFrame {
 			file.addActionListener(new java.awt.event.ActionListener() {
                 @Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-                    fileToBeDownloaded = ((JRadioButton)(e.getSource())).getText();
+                    fileToBeDownloaded = ((JRadioButton)(e.getSource())).getText().trim();
                     System.out.println(fileToBeDownloaded);
                 }
             });
